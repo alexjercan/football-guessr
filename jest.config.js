@@ -9,6 +9,7 @@ module.exports = {
         "!src/**/*.d.ts",
         "!src/ui/**/*.ts", // Exclude UI components (DOM-heavy, hard to unit test)
         "!src/index.ts", // Exclude entry point
+        "!src/practice.ts", // Exclude entry point
     ],
     coverageThreshold: {
         global: {

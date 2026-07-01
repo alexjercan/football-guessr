@@ -4,8 +4,9 @@ Guess the mystery footballer from the clubs they've played for. You start with a
 single club as a hint — every wrong guess reveals the next club in that player's
 career, so the longer you take, the more career history you have to work with.
 
-> **Status:** V1 in progress. The scaffolding, build pipeline, and dataset are in
-> place; the core game loop and the playable UI are still under construction. See
+> **Status:** V1 complete and playable end-to-end. The game loop, the Daily and
+> Practice pages, the build pipeline, and the starter dataset are all in place;
+> `npm run build` produces a working standalone `dist/`. See
 > [Project status](#project-status) below.
 
 ## How to play
@@ -21,7 +22,15 @@ career, so the longer you take, the more career history you have to work with.
 - Reach 25 guesses without the right answer → **Game Over**, and the answer is
   revealed.
 
-Guessing is case-insensitive and ignores surrounding whitespace.
+Guessing is case-, whitespace-, and accent-insensitive, so `Mbappe` matches
+`Mbappé` and extra spaces don't count against you.
+
+### Two ways to play
+
+- **Daily** (home page, `/`) — a single mystery player chosen from today's date,
+  so everyone gets the same puzzle. One game per day; no replay.
+- **Practice** (`/practice`) — a fresh random player every time, with a
+  **Play Again** button for endless rounds.
 
 ## Tech stack
 
@@ -59,7 +68,8 @@ Start the dev server with live reload:
 npm run serve
 ```
 
-Then open <http://localhost:8080>.
+Then open <http://localhost:8080>. The available routes are `/` (Daily),
+`/practice`, `/faq`, and `/profile`.
 
 ### Build
 
@@ -69,7 +79,15 @@ Produce a static bundle in `dist/`:
 npm run build
 ```
 
-The contents of `dist/` can then be served by any static file server.
+The game fetches its dataset (`data/players.json`) at runtime, so serve the built
+`dist/` over HTTP with any static file server rather than opening `index.html`
+directly via `file://`. For example:
+
+```bash
+npx serve dist
+# or
+python3 -m http.server --directory dist 8080
+```
 
 ### Test, lint, and format
 
@@ -86,29 +104,41 @@ npm run ci          # format check + lint + tests with coverage
 ```
 src/
   data/players.json     # player dataset (id, name, chronological clubs[])
-  index.html / index.ts # home page — the game
-  practice.* faq.* profile.*  # additional pages (scaffolded)
+  types.ts              # shared types (PlayerEntry, GameState, GameView)
+  game.ts               # framework-agnostic game loop (pure reducer + facade)
+  matching.ts           # case/whitespace/accent-insensitive name matching
+  dataLoader.ts helpers.ts    # dataset fetch + RNG/util helpers
+  index.html            # shared game page template (Daily + Practice)
+  index.ts              # home page — Daily game
+  practice.ts           # Practice page — random player + Play Again
+  faq.* profile.*       # additional pages
+  ui/mountGame.ts       # wires the DOM to the game logic
   _header.html / _footer.html # shared HTML partials
   style.css             # Tailwind entry
   assets/               # SVG assets
-test/                   # Jest tests
-webpack.config.js       # build + dev server config
+test/                   # Jest tests (game, matching, helpers)
+webpack.config.js       # multi-page build + dev server config
 tasks/                  # task tracking (see below)
 ```
 
 ## Project status
 
-Work is tracked as individual tasks under `tasks/` (managed with `tatr`). V1 is
-broken into steps 0–6; the initial planning breakdown lives in
-`tasks/20260701-083457/TASK.md`. At the time of writing, project setup, the
-Webpack build, and an initial dataset are done, while the core game loop and the
-playable HTML page are still to be built.
+**V1 is complete.** Work is tracked as individual tasks under `tasks/` (managed
+with `tatr`); the planning breakdown lives in `tasks/20260701-083457/TASK.md`,
+split into steps 0–6.
+
+Every V1 step is done: project setup, the Webpack multi-page build, the starter
+dataset, the framework-agnostic game loop, and the playable Daily + Practice
+pages. `npm run build` produces a working standalone `dist/`, and the game logic
+is covered by the Jest suite (41 tests across `game`, `matching`, and `helpers`).
+Follow-up ideas are gathered in the V2 breakdown (`tasks/20260701-105230/TASK.md`).
 
 ### Out of scope for V1
 
 Deliberately deferred so the initial scope stays small:
 
-- Fuzzy name matching, autocomplete, or accent-insensitive input
+- Fuzzy name matching and autocomplete (V1 already handles case, whitespace, and
+  accents, but expects otherwise-correct spelling)
 - A large or externally sourced dataset (V1 uses a small hand-picked list)
 - Club crests / images and difficulty levels
 - Accounts, persistence, or leaderboards

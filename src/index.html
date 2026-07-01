@@ -12,7 +12,40 @@
 
     <body>
         <div id="header"></div>
-        <main></main>
+        <main>
+            <section class="game" aria-labelledby="mode">
+                <p id="mode" class="game__mode"></p>
+                <ul id="clubs" class="game__clubs"></ul>
+                <form id="guess-form" class="game__form">
+                    <input
+                        id="guess-input"
+                        name="guess"
+                        type="text"
+                        autocomplete="off"
+                        placeholder="Guess the footballer…"
+                        aria-label="Guess the footballer"
+                    />
+                    <button type="submit">Guess</button>
+                </form>
+                <p class="game__guesses">
+                    Guesses left: <span id="guesses-left"></span>
+                </p>
+                <p
+                    id="status"
+                    class="game__status"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+                <button
+                    id="play-again"
+                    class="game__play-again"
+                    type="button"
+                    hidden
+                >
+                    Play Again
+                </button>
+            </section>
+        </main>
         <div id="footer"></div>
     </body>
 </html>

@@ -125,3 +125,108 @@ footer a + a::before {
     height: 100%;
     filter: brightness(0) invert(1);
 }
+
+/* -- Game (Daily + Practice) ---------------------------------------------- */
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 20px;
+}
+
+.game {
+    width: 100%;
+    max-width: 480px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 0 24px var(--amber-glow-soft);
+}
+
+.game__mode {
+    margin: 0 0 16px;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--amber-glow);
+}
+
+.game__clubs {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.game__clubs li {
+    padding: 10px 14px;
+    border: 1px solid var(--amber-outline);
+    border-radius: 8px;
+    background: var(--amber-glow-faint);
+}
+
+.game__form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+#guess-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    background: var(--node-bg);
+    color: var(--text-main);
+    font-size: 1rem;
+}
+
+#guess-input:focus {
+    outline: none;
+    border-color: var(--amber-glow);
+}
+
+#guess-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.game__form button,
+.game__play-again {
+    padding: 10px 16px;
+    border: 1px solid var(--amber-glow);
+    border-radius: 8px;
+    background: var(--amber-dim);
+    color: var(--amber-glow);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.game__form button:hover,
+.game__play-again:hover {
+    background: var(--amber-glow);
+    color: var(--bg-dark);
+}
+
+.game__guesses {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+    color: #8a93a5;
+}
+
+.game__status {
+    margin: 0 0 12px;
+    min-height: 1.4em;
+    font-weight: 600;
+    color: var(--victory-gold);
+}
+
+.game__play-again {
+    width: 100%;
+}
