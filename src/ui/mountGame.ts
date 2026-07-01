@@ -6,6 +6,7 @@ import { StorageProvider, defaultStorage } from "../storage";
 import { GameStatus, GameView, PlayerEntry } from "../types";
 import { setupAutocomplete } from "./autocomplete";
 import { hideModal, showLossModal, showWinModal } from "./modal";
+import { renderPanel } from "./panel";
 
 export interface MountGameOptions {
     /** Random source in [0, 1); the seam that separates Daily from Practice. */
@@ -160,6 +161,10 @@ export async function mountGame({
             li.textContent = club;
             clubsEl.appendChild(li);
         }
+
+        // Mirror the revealed clubs + wrong guesses into the hint panel (no-op
+        // if the panel markup isn't present).
+        renderPanel(view);
 
         guessesLeftEl.textContent = String(view.guessesRemaining);
 

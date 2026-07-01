@@ -13,58 +13,115 @@
     <body>
         <div id="header"></div>
         <main>
-            <section class="game" aria-labelledby="mode">
-                <p id="mode" class="game__mode"></p>
-                <ul id="clubs" class="game__clubs"></ul>
-                <form id="guess-form" class="game__form">
-                    <div class="game__input-wrap">
-                        <input
-                            id="guess-input"
-                            name="guess"
-                            type="text"
-                            autocomplete="off"
-                            placeholder="Guess the footballer…"
-                            aria-label="Guess the footballer"
-                            role="combobox"
-                            aria-autocomplete="list"
-                            aria-expanded="false"
-                            aria-controls="autocomplete-box"
-                        />
-                        <div
-                            id="autocomplete-box"
-                            class="autocomplete"
-                            role="listbox"
-                            hidden
-                        ></div>
-                    </div>
-                    <button type="submit">Guess</button>
-                </form>
-                <p class="game__guesses">
-                    Guesses left: <span id="guesses-left"></span>
-                </p>
-                <p
-                    id="status"
-                    class="game__status"
-                    role="status"
-                    aria-live="polite"
-                ></p>
+            <div class="game-layout">
+                <section class="game" aria-labelledby="mode">
+                    <p id="mode" class="game__mode"></p>
+                    <ul id="clubs" class="game__clubs"></ul>
+                    <form id="guess-form" class="game__form">
+                        <div class="game__input-wrap">
+                            <input
+                                id="guess-input"
+                                name="guess"
+                                type="text"
+                                autocomplete="off"
+                                placeholder="Guess the footballer…"
+                                aria-label="Guess the footballer"
+                                role="combobox"
+                                aria-autocomplete="list"
+                                aria-expanded="false"
+                                aria-controls="autocomplete-box"
+                            />
+                            <div
+                                id="autocomplete-box"
+                                class="autocomplete"
+                                role="listbox"
+                                hidden
+                            ></div>
+                        </div>
+                        <button type="submit">Guess</button>
+                    </form>
+                    <p class="game__guesses">
+                        Guesses left: <span id="guesses-left"></span>
+                    </p>
+                    <p
+                        id="status"
+                        class="game__status"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+                    <button
+                        id="play-again"
+                        class="game__play-again"
+                        type="button"
+                        hidden
+                    >
+                        Play Again
+                    </button>
+                    <a
+                        id="go-practice"
+                        class="game__go-practice"
+                        href="<%= htmlWebpackPlugin.options.basePath %>practice"
+                        hidden
+                    >
+                        Play Practice Mode
+                    </a>
+                </section>
+
                 <button
-                    id="play-again"
-                    class="game__play-again"
+                    id="hint-panel-pull"
+                    class="hint-panel-pull"
                     type="button"
+                    aria-controls="hint-panel"
+                    aria-expanded="false"
+                    aria-label="Open hint panel"
                     hidden
                 >
-                    Play Again
+                    <span class="hint-panel-pull__icon" aria-hidden="true"
+                        >⟡</span
+                    >
+                    <span class="hint-panel-pull__label">Hints</span>
                 </button>
-                <a
-                    id="go-practice"
-                    class="game__go-practice"
-                    href="<%= htmlWebpackPlugin.options.basePath %>practice"
-                    hidden
+                <aside
+                    id="hint-panel"
+                    class="hint-panel"
+                    aria-label="Revealed clubs and past guesses"
+                    aria-hidden="true"
                 >
-                    Play Practice Mode
-                </a>
-            </section>
+                    <div class="hint-panel__header">
+                        <span class="hint-panel__heading">Hints</span>
+                        <button
+                            id="hint-panel-close"
+                            class="hint-panel__close"
+                            type="button"
+                            aria-label="Close hint panel"
+                        >
+                            &times;
+                        </button>
+                    </div>
+                    <div class="hint-panel__body">
+                        <div class="hint-panel__section">
+                            <h2 class="hint-panel__title">Revealed clubs</h2>
+                            <ul
+                                id="hint-panel-clubs"
+                                class="hint-panel__clubs"
+                            ></ul>
+                        </div>
+                        <div class="hint-panel__section">
+                            <h2 class="hint-panel__title">Wrong guesses</h2>
+                            <ul
+                                id="hint-panel-guesses"
+                                class="hint-panel__guesses"
+                            ></ul>
+                            <p
+                                id="hint-panel-guesses-empty"
+                                class="hint-panel__empty"
+                            >
+                                No wrong guesses yet.
+                            </p>
+                        </div>
+                    </div>
+                </aside>
+            </div>
         </main>
         <div
             id="modal-overlay"
