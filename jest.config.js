@@ -10,6 +10,8 @@ module.exports = {
         "!src/ui/**/*.ts", // Exclude UI components (DOM-heavy, hard to unit test)
         "!src/index.ts", // Exclude entry point
         "!src/practice.ts", // Exclude entry point
+        "!src/faq.ts", // Exclude entry point
+        "!src/profile.ts", // Exclude entry point (DOM-heavy; logic lives in gameStats.ts)
     ],
     coverageThreshold: {
         global: {

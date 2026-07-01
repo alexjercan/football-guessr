@@ -1,10 +1,50 @@
 # V2 Step 10 — Profile / Stats Page
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 75
 - TAGS: ux,stats,new-page
 
 Source: tasks/20260701-105230/TASK.md (V2 Task Breakdown), Step 10.
+
+## Implementation summary
+
+Built the profile/stats page. Stats show games played, win rate, current +
+longest **streaks**, average guesses, total wins/losses, and a
+**"won in N guesses" bar chart** — per mode (Daily / Practice tabs).
+
+Files:
+- `src/gameStats.ts` — pure stats layer. `computeGameStats(gameData, mode,
+  storage)` returns `{ gamesPlayed, wins, losses, currentStreak,
+  longestStreak, averageGuesses, guessDistribution: Map<number, number> }`.
+  Also exports `deriveOutcome(savedGame, players)`.
+- `test/gameStats.test.ts` — 15 tests (outcomes, aggregates, distribution,
+  and both streak flavours). `gameStats.ts` is at 100% stmts/functions.
+- `src/profile.html` — tabs + stat-card grid + performance rows +
+  distribution containers (no carousel / rolling-average — out of scope).
+- `src/profile.ts` — `main()` / `setupTabs()` / `updateStatsUI()` /
+  `renderGuessDistribution()`, adapted from the reference and trimmed.
+- `src/style.css` — `.profile-*` styles in the existing amber/glass theme.
+- `jest.config.js` — excluded `profile.ts` (and `faq.ts`) from coverage as
+  DOM-only entry points, matching the existing `index.ts`/`practice.ts` rule.
+
+Key decisions:
+- **No new write path was needed.** Per the Step 9 design, stats are *derived*:
+  `computeGameStats` reads the per-game records via `loadAllGames(mode)` and
+  replays each game's `guesses` through the real reducer (`deriveOutcome`) to
+  recover won/lost + guesses-used. `mountGame.ts` already persists every
+  finished game, so the "record once per finished game" concern from the note
+  below is satisfied without touching `render(view)` (no double-record risk,
+  since finished games are just re-derived, never accumulated).
+- **Streaks.** Daily uses consecutive **UTC calendar days** (a skipped day
+  breaks it, Wordle-style); the day is unpacked straight from the `YYYYMMDD`
+  seed, no `Date`/timezone ambiguity. Practice uses consecutive winning plays.
+  Unfinished games (mid-flight Daily saves) and records for unknown players are
+  skipped, so `gamesPlayed` only counts genuinely completed games.
+- **Nav link** to Profile already existed in `src/_header.html` (the
+  `.profile-button`), so that in-scope item was already satisfied.
+
+Verified: `npm run lint`, `npm run format:check`, `npm run test:coverage`
+(111 passing), `tsc --noEmit`, and `npm run build` all pass.
 
 **Goal:** A third page (`profile.html` / `profile.ts`, mirroring the
 Daily/Practice split already in `webpack.config.js`) showing games played,
@@ -21,19 +61,18 @@ collection carousel) that's more than V2 needs. Treat it as a **menu to pick
 from**, not a checklist to fully replicate:
 
 **In scope for V2:**
-- [ ] `src/gameStats.ts`: a `computeGameStats(storage, mode):
+- [x] `src/gameStats.ts`: a `computeGameStats(storage, mode):
       GameStats` reading whatever Step 9 records, returning at minimum
       `{ gamesPlayed, wins, losses, currentStreak, longestStreak,
       averageGuesses, guessDistribution: Map<number, number> }`
-- [ ] `src/profile.html` + `src/profile.ts`: new webpack entry (add to
-      `webpack.config.js` alongside index/practice/faq), tabs for
-      Daily/Practice stats (`setupTabs()` pattern from the reference is
-      small and reusable as-is)
-- [ ] `renderGuessDistribution()` (bar chart of "won in N guesses") —
-      reference implementation is plain DOM/innerHTML, no library needed,
-      portable almost unchanged
-- [ ] Nav link to Profile from Daily/Practice pages (this was explicitly
-      out-of-scope in V1 Step 5 — now's the time)
+      (final signature: `computeGameStats(gameData, mode, storage)`)
+- [x] `src/profile.html` + `src/profile.ts`: new webpack entry (already
+      registered in `webpack.config.js` alongside index/practice/faq), tabs for
+      Daily/Practice stats (`setupTabs()` pattern from the reference)
+- [x] `renderGuessDistribution()` (bar chart of "won in N guesses") —
+      ported to DOM nodes (no innerHTML), no library needed
+- [x] Nav link to Profile from Daily/Practice pages — already present in
+      `src/_header.html` (`.profile-button`)
 
 **Explicitly out of scope for V2** (this is what makes the reference
 "more than needed" — revisit only if there's appetite later):

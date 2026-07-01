@@ -12,7 +12,226 @@
 
     <body>
         <div id="header"></div>
-        <main></main>
+        <main>
+            <div class="profile-container">
+                <h1 class="profile-title">Player Statistics</h1>
+
+                <div class="profile-tabs" role="tablist">
+                    <button
+                        class="profile-tab active"
+                        data-mode="daily"
+                        id="daily-tab"
+                        role="tab"
+                        aria-selected="true"
+                        aria-controls="daily-stats"
+                    >
+                        Daily
+                    </button>
+                    <button
+                        class="profile-tab"
+                        data-mode="practice"
+                        id="practice-tab"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="practice-stats"
+                    >
+                        Practice
+                    </button>
+                </div>
+
+                <div
+                    class="profile-stats-content"
+                    id="daily-stats"
+                    role="tabpanel"
+                    aria-labelledby="daily-tab"
+                >
+                    <div class="profile-stats-grid">
+                        <div class="profile-stat-card">
+                            <div
+                                class="profile-stat-value"
+                                id="games-played-daily"
+                            >
+                                0
+                            </div>
+                            <div class="profile-stat-label">Games Played</div>
+                        </div>
+                        <div class="profile-stat-card">
+                            <div class="profile-stat-value" id="win-rate-daily">
+                                0%
+                            </div>
+                            <div class="profile-stat-label">Win Rate</div>
+                        </div>
+                        <div class="profile-stat-card">
+                            <div
+                                class="profile-stat-value"
+                                id="current-streak-daily"
+                            >
+                                0
+                            </div>
+                            <div class="profile-stat-label">Current Streak</div>
+                        </div>
+                        <div class="profile-stat-card">
+                            <div
+                                class="profile-stat-value"
+                                id="longest-streak-daily"
+                            >
+                                0
+                            </div>
+                            <div class="profile-stat-label">Longest Streak</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2 class="profile-section-title">Performance</h2>
+                        <div class="profile-stat-card profile-stat-full">
+                            <div class="profile-stat-row">
+                                <span class="profile-stat-label"
+                                    >Average Guesses</span
+                                >
+                                <span
+                                    class="profile-stat-value"
+                                    id="avg-guesses-daily"
+                                    >0</span
+                                >
+                            </div>
+                            <div class="profile-stat-row">
+                                <span class="profile-stat-label"
+                                    >Total Wins</span
+                                >
+                                <span
+                                    class="profile-stat-value"
+                                    id="total-wins-daily"
+                                    >0</span
+                                >
+                            </div>
+                            <div class="profile-stat-row">
+                                <span class="profile-stat-label"
+                                    >Total Losses</span
+                                >
+                                <span
+                                    class="profile-stat-value"
+                                    id="total-losses-daily"
+                                    >0</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2 class="profile-section-title">
+                            Guess Distribution
+                        </h2>
+                        <div class="profile-stat-card profile-stat-full">
+                            <div
+                                class="profile-distribution"
+                                id="guess-distribution-daily"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="profile-stats-content"
+                    id="practice-stats"
+                    role="tabpanel"
+                    aria-labelledby="practice-tab"
+                    hidden
+                >
+                    <div class="profile-stats-grid">
+                        <div class="profile-stat-card">
+                            <div
+                                class="profile-stat-value"
+                                id="games-played-practice"
+                            >
+                                0
+                            </div>
+                            <div class="profile-stat-label">Games Played</div>
+                        </div>
+                        <div class="profile-stat-card">
+                            <div
+                                class="profile-stat-value"
+                                id="win-rate-practice"
+                            >
+                                0%
+                            </div>
+                            <div class="profile-stat-label">Win Rate</div>
+                        </div>
+                        <div class="profile-stat-card">
+                            <div
+                                class="profile-stat-value"
+                                id="current-streak-practice"
+                            >
+                                0
+                            </div>
+                            <div class="profile-stat-label">Current Streak</div>
+                        </div>
+                        <div class="profile-stat-card">
+                            <div
+                                class="profile-stat-value"
+                                id="longest-streak-practice"
+                            >
+                                0
+                            </div>
+                            <div class="profile-stat-label">Longest Streak</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2 class="profile-section-title">Performance</h2>
+                        <div class="profile-stat-card profile-stat-full">
+                            <div class="profile-stat-row">
+                                <span class="profile-stat-label"
+                                    >Average Guesses</span
+                                >
+                                <span
+                                    class="profile-stat-value"
+                                    id="avg-guesses-practice"
+                                    >0</span
+                                >
+                            </div>
+                            <div class="profile-stat-row">
+                                <span class="profile-stat-label"
+                                    >Total Wins</span
+                                >
+                                <span
+                                    class="profile-stat-value"
+                                    id="total-wins-practice"
+                                    >0</span
+                                >
+                            </div>
+                            <div class="profile-stat-row">
+                                <span class="profile-stat-label"
+                                    >Total Losses</span
+                                >
+                                <span
+                                    class="profile-stat-value"
+                                    id="total-losses-practice"
+                                    >0</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2 class="profile-section-title">
+                            Guess Distribution
+                        </h2>
+                        <div class="profile-stat-card profile-stat-full">
+                            <div
+                                class="profile-distribution"
+                                id="guess-distribution-practice"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-back">
+                    <a href="<%= htmlWebpackPlugin.options.basePath %>"
+                        >Back to game</a
+                    >
+                </div>
+            </div>
+        </main>
         <div id="footer"></div>
     </body>
 </html>

@@ -460,3 +460,221 @@ main {
 .modal__practice-btn[hidden] {
     display: none;
 }
+
+/* -- Profile / stats page ------------------------------------------------- */
+
+.profile-container {
+    width: 100%;
+    max-width: 560px;
+}
+
+.profile-title {
+    margin: 0 0 20px;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    text-align: center;
+    color: var(--amber-glow);
+}
+
+.profile-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.profile-tab {
+    flex: 1;
+    padding: 10px 16px;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    background: var(--node-bg);
+    color: #8a93a5;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.profile-tab:hover {
+    border-color: var(--amber-glow);
+    color: var(--text-main);
+}
+
+.profile-tab.active {
+    background: var(--amber-dim);
+    border-color: var(--amber-glow);
+    color: var(--amber-glow);
+}
+
+.profile-tab:focus-visible {
+    outline: 2px solid var(--amber-glow);
+    outline-offset: 2px;
+}
+
+.profile-stats-content[hidden] {
+    display: none;
+}
+
+.profile-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.profile-stat-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 18px 16px;
+    text-align: center;
+    box-shadow: 0 0 20px var(--amber-glow-soft);
+}
+
+.profile-stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--victory-gold);
+}
+
+.profile-stat-label {
+    margin-top: 6px;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #8a93a5;
+}
+
+.profile-section {
+    margin-bottom: 20px;
+}
+
+.profile-section-title {
+    margin: 0 0 10px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--amber-glow);
+}
+
+.profile-stat-full {
+    text-align: left;
+    padding: 8px 18px;
+}
+
+.profile-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+}
+
+.profile-stat-row + .profile-stat-row {
+    border-top: 1px solid var(--amber-glow-faint);
+}
+
+.profile-stat-row .profile-stat-label {
+    margin: 0;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.profile-stat-row .profile-stat-value {
+    font-size: 1.1rem;
+    color: var(--amber-glow);
+}
+
+/* Guess distribution bar chart */
+
+.profile-distribution {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 0;
+}
+
+.profile-dist-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-dist-label {
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.profile-dist-bar-container {
+    flex: 1;
+    min-width: 0;
+}
+
+.profile-dist-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 8px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    background: var(--amber-glow-faint);
+    transition: width 0.3s ease;
+}
+
+.profile-dist-bar.has-value {
+    background: var(--amber-glow);
+}
+
+.profile-dist-count {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #8a93a5;
+}
+
+.profile-dist-bar.has-value .profile-dist-count {
+    color: var(--bg-dark);
+}
+
+.profile-no-data {
+    margin: 0;
+    padding: 12px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #8a93a5;
+}
+
+.profile-back {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.profile-back a {
+    display: inline-block;
+    padding: 10px 28px;
+    border: 1px solid var(--amber-glow);
+    border-radius: 8px;
+    color: var(--amber-glow);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.profile-back a:hover {
+    background: var(--amber-glow);
+    color: var(--bg-dark);
+}
+
+@media (max-width: 480px) {
+    .profile-stat-value {
+        font-size: 1.6rem;
+    }
+}
