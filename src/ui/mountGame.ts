@@ -1,8 +1,9 @@
 import { loadGameData } from "../dataLoader";
 import { createGame } from "../game";
 import { namesMatch, resolveGuess } from "../matching";
-import { GameView } from "../types";
+import { GameStatus, GameView } from "../types";
 import { setupAutocomplete } from "./autocomplete";
+import { hideModal, showLossModal, showWinModal } from "./modal";
 
 export interface MountGameOptions {
     /** Random source in [0, 1); the seam that separates Daily from Practice. */
@@ -59,6 +60,10 @@ export async function mountGame({
     const isGuessed = (name: string): boolean =>
         pastGuesses.some((guess) => namesMatch(guess, name));
 
+    // Only fire the end-of-game modal (and confetti) once per game, on the
+    // transition into a terminal status — not on every re-render.
+    let shownEndStatus: GameStatus | null = null;
+
     const render = (view: GameView): void => {
         pastGuesses = view.pastGuesses;
         modeEl.textContent = mode === "daily" ? "Daily" : "Practice";
@@ -89,6 +94,18 @@ export async function mountGame({
             autocomplete.close();
         }
 
+        // End-of-game modal, exactly once per terminal transition. `answer` is
+        // guaranteed non-null once the game is over (see toView).
+        if (isOver && view.status !== shownEndStatus) {
+            shownEndStatus = view.status;
+            const answer = view.answer ?? "";
+            if (view.status === "won") {
+                showWinModal(answer, view.guessesUsed);
+            } else {
+                showLossModal(answer);
+            }
+        }
+
         // "Play Again" only makes sense in Practice — Daily is one per day.
         playAgainEl.hidden = !(isOver && mode === "practice");
     };
@@ -99,7 +116,11 @@ export async function mountGame({
         const view = game.submitGuess(name);
         inputEl.value = "";
         render(view);
-        inputEl.focus();
+        // Keep typing focus only while the game is live; once it's over, render
+        // has moved focus to the modal, so don't yank it back to a dead input.
+        if (view.status === "playing") {
+            inputEl.focus();
+        }
     };
 
     const autocomplete = setupAutocomplete({
@@ -126,6 +147,10 @@ export async function mountGame({
     });
 
     playAgainEl.addEventListener("click", () => {
+        // Fresh game: drop the end-of-game modal and re-arm the guard so the
+        // next win/loss shows it again.
+        hideModal();
+        shownEndStatus = null;
         const view = game.restart();
         inputEl.value = "";
         render(view);

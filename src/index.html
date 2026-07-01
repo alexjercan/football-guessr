@@ -58,6 +58,32 @@
                 </button>
             </section>
         </main>
+        <div
+            id="modal-overlay"
+            class="modal-overlay"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            aria-describedby="modal-message"
+        >
+            <div id="modal" class="modal">
+                <div
+                    id="modal-icon"
+                    class="modal__icon"
+                    aria-hidden="true"
+                ></div>
+                <h2 id="modal-title" class="modal__title"></h2>
+                <p id="modal-message" class="modal__message"></p>
+                <p id="modal-stats" class="modal__stats"></p>
+                <button
+                    id="modal-close-btn"
+                    class="modal__close-btn"
+                    type="button"
+                >
+                    OK
+                </button>
+            </div>
+        </div>
         <div id="footer"></div>
     </body>
 </html>

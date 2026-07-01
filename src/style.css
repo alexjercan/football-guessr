@@ -277,3 +277,111 @@ main {
 .game__play-again {
     width: 100%;
 }
+
+/* -- End-of-game modal ---------------------------------------------------- */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(5, 7, 10, 0.72);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    width: 100%;
+    max-width: 380px;
+    padding: 28px 24px;
+    text-align: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    box-shadow: 0 0 40px var(--amber-glow-soft);
+    transform: translateY(12px) scale(0.97);
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.modal-overlay.active .modal {
+    transform: translateY(0) scale(1);
+}
+
+.modal--win {
+    border-color: rgba(255, 215, 0, 0.55);
+}
+
+.modal--loss {
+    border-color: rgba(255, 74, 74, 0.5);
+}
+
+.modal__icon {
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.modal__title {
+    margin: 0 0 10px;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+}
+
+.modal--win .modal__title {
+    color: var(--victory-gold);
+}
+
+.modal--loss .modal__title {
+    color: var(--danger-red);
+}
+
+.modal__message {
+    margin: 0 0 6px;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+.modal__message strong {
+    color: var(--amber-glow);
+}
+
+.modal__stats {
+    margin: 0 0 20px;
+    font-size: 0.9rem;
+    color: #8a93a5;
+}
+
+.modal__close-btn {
+    padding: 10px 28px;
+    border: 1px solid var(--amber-glow);
+    border-radius: 8px;
+    background: var(--amber-dim);
+    color: var(--amber-glow);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal__close-btn:hover {
+    background: var(--amber-glow);
+    color: var(--bg-dark);
+}
+
+.modal__close-btn:focus-visible {
+    outline: 2px solid var(--amber-glow);
+    outline-offset: 2px;
+}

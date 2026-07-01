@@ -119,6 +119,7 @@ src/
   faq.* profile.*       # additional pages
   ui/mountGame.ts       # wires the DOM to the game logic
   ui/autocomplete.ts    # type-ahead dropdown DOM wiring (uses matching.ts)
+  ui/modal.ts           # end-of-game win/loss modal (+ confetti on win)
   _header.html / _footer.html # shared HTML partials
   style.css             # Tailwind entry
   assets/               # SVG assets
@@ -138,7 +139,8 @@ dataset, the framework-agnostic game loop, and the playable Daily + Practice
 pages. `npm run build` produces a working standalone `dist/`, and the game logic
 is covered by the Jest suite (62 tests across `game`, `matching`/autocomplete,
 and `helpers`). Follow-up ideas are gathered in the V2 breakdown
-(`tasks/20260701-105230/TASK.md`); V2 Step 7 (fuzzy autocomplete) is complete.
+(`tasks/20260701-105230/TASK.md`); V2 Step 7 (fuzzy autocomplete) and Step 8
+(win/loss modal with confetti) are complete.
 
 ### Out of scope for V1
 
