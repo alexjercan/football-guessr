@@ -1,6 +1,13 @@
 import "./style.css";
 import { mountGame } from "./ui/mountGame";
-import { mulberry32, dateToSeed } from "./helpers";
+import { mulberry32, dateToSeed, dailyPuzzleNumber } from "./helpers";
 
 // Daily: seed from today's UTC date so everyone gets the same player (Wordle-style).
-mountGame({ rng: mulberry32(dateToSeed(new Date())), mode: "daily" });
+const today = new Date();
+const seed = dateToSeed(today);
+mountGame({
+    rng: mulberry32(seed),
+    mode: "daily",
+    seed,
+    puzzleNumber: dailyPuzzleNumber(today),
+});

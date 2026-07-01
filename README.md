@@ -33,9 +33,15 @@ guess.
 ### Two ways to play
 
 - **Daily** (home page, `/`) — a single mystery player chosen from today's date,
-  so everyone gets the same puzzle. One game per day; no replay.
+  so everyone gets the same puzzle, numbered like Wordle (e.g. "Daily #14"). One
+  game per day; no replay. Your progress is saved locally, so refreshing or
+  coming back later resumes exactly where you left off (and a finished puzzle
+  stays finished, with a shortcut into Practice).
 - **Practice** (`/practice`) — a fresh random player every time, with a
   **Play Again** button for endless rounds.
+
+Results for both modes are recorded in your browser's local storage to power the
+Profile stats page.
 
 ## Tech stack
 
@@ -112,7 +118,9 @@ src/
   types.ts              # shared types (PlayerEntry, GameState, GameView)
   game.ts               # framework-agnostic game loop (pure reducer + facade)
   matching.ts           # name matching + fuzzy autocomplete resolution (pure)
-  dataLoader.ts helpers.ts    # dataset fetch + RNG/util helpers
+  storage.ts            # StorageProvider abstraction over localStorage (SSR-safe)
+  gameStorage.ts        # daily save/resume + per-game stats log (keyed by seed)
+  dataLoader.ts helpers.ts    # dataset fetch + RNG/daily-number/util helpers
   index.html            # shared game page template (Daily + Practice)
   index.ts              # home page — Daily game
   practice.ts           # Practice page — random player + Play Again
@@ -123,7 +131,7 @@ src/
   _header.html / _footer.html # shared HTML partials
   style.css             # Tailwind entry
   assets/               # SVG assets
-test/                   # Jest tests (game, matching, helpers)
+test/                   # Jest tests (game, matching, autocomplete, storage, …)
 webpack.config.js       # multi-page build + dev server config
 tasks/                  # task tracking (see below)
 ```
@@ -137,10 +145,11 @@ split into steps 0–6.
 Every V1 step is done: project setup, the Webpack multi-page build, the starter
 dataset, the framework-agnostic game loop, and the playable Daily + Practice
 pages. `npm run build` produces a working standalone `dist/`, and the game logic
-is covered by the Jest suite (62 tests across `game`, `matching`/autocomplete,
-and `helpers`). Follow-up ideas are gathered in the V2 breakdown
-(`tasks/20260701-105230/TASK.md`); V2 Step 7 (fuzzy autocomplete) and Step 8
-(win/loss modal with confetti) are complete.
+is covered by the Jest suite (94 tests across `game`, `matching`/autocomplete,
+`storage`/`gameStorage`, and `helpers`). Follow-up ideas are gathered in the V2
+breakdown (`tasks/20260701-105230/TASK.md`); V2 Steps 7 (fuzzy autocomplete),
+8 (win/loss modal with confetti), and 9 (localStorage persistence + Daily
+numbering) are complete.
 
 ### Out of scope for V1
 

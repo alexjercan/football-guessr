@@ -1,4 +1,4 @@
-import { mulberry32, dateToSeed } from "../src/helpers";
+import { mulberry32, dateToSeed, dailyPuzzleNumber, DAILY_EPOCH } from "../src/helpers";
 
 describe("mulberry32", () => {
     it("is deterministic: the same seed yields the same sequence", () => {
@@ -67,5 +67,31 @@ describe("dateToSeed", () => {
         const rngA = mulberry32(dateToSeed(new Date("2026-07-01T08:00:00Z")));
         const rngB = mulberry32(dateToSeed(new Date("2026-07-01T20:00:00Z")));
         expect(rngA()).toBe(rngB());
+    });
+});
+
+describe("dailyPuzzleNumber", () => {
+    it("is #1 on the epoch day itself", () => {
+        expect(dailyPuzzleNumber(DAILY_EPOCH)).toBe(1);
+        expect(dailyPuzzleNumber(new Date("2026-07-01T23:59:59Z"))).toBe(1);
+    });
+
+    it("increments by one per whole UTC day after the epoch", () => {
+        expect(dailyPuzzleNumber(new Date("2026-07-02T00:00:00Z"))).toBe(2);
+        expect(dailyPuzzleNumber(new Date("2026-07-15T12:00:00Z"))).toBe(15);
+        // 31 days in July → Aug 1 is puzzle #32.
+        expect(dailyPuzzleNumber(new Date("2026-08-01T00:00:00Z"))).toBe(32);
+    });
+
+    it("is stable across the time-of-day within a UTC day", () => {
+        const morning = dailyPuzzleNumber(new Date("2026-07-10T01:00:00Z"));
+        const evening = dailyPuzzleNumber(new Date("2026-07-10T22:00:00Z"));
+        expect(morning).toBe(evening);
+        expect(morning).toBe(10);
+    });
+
+    it("clamps to 1 for dates before the epoch (never non-positive)", () => {
+        expect(dailyPuzzleNumber(new Date("2026-06-30T12:00:00Z"))).toBe(1);
+        expect(dailyPuzzleNumber(new Date("2000-01-01T00:00:00Z"))).toBe(1);
     });
 });

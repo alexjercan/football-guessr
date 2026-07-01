@@ -278,6 +278,30 @@ main {
     width: 100%;
 }
 
+.game__go-practice {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 16px;
+    border: 1px solid var(--victory-gold);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--victory-gold);
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.game__go-practice:hover {
+    background: var(--victory-gold);
+    color: var(--bg-dark);
+}
+
+.game__go-practice[hidden] {
+    display: none;
+}
+
 /* -- End-of-game modal ---------------------------------------------------- */
 
 .modal-overlay {
@@ -365,6 +389,13 @@ main {
     color: #8a93a5;
 }
 
+.modal__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
 .modal__close-btn {
     padding: 10px 28px;
     border: 1px solid var(--amber-glow);
@@ -381,7 +412,51 @@ main {
     color: var(--bg-dark);
 }
 
-.modal__close-btn:focus-visible {
+.modal__close-btn:focus-visible,
+.modal__practice-btn:focus-visible,
+.modal__play-again-btn:focus-visible {
     outline: 2px solid var(--amber-glow);
     outline-offset: 2px;
+}
+
+.modal__play-again-btn {
+    padding: 10px 28px;
+    border: 1px solid var(--amber-glow);
+    border-radius: 8px;
+    background: var(--amber-glow);
+    color: var(--bg-dark);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal__play-again-btn:hover {
+    background: var(--amber-dim);
+    color: var(--amber-glow);
+}
+
+.modal__play-again-btn[hidden] {
+    display: none;
+}
+
+.modal__practice-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 28px;
+    border: 1px solid var(--victory-gold);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--victory-gold);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.modal__practice-btn:hover {
+    background: var(--victory-gold);
+    color: var(--bg-dark);
+}
+
+.modal__practice-btn[hidden] {
+    display: none;
 }

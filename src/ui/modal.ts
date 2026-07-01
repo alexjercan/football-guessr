@@ -22,10 +22,31 @@ interface ModalElements {
     message: HTMLElement;
     stats: HTMLElement;
     closeBtn: HTMLElement;
+    /** Optional: the "Play Practice Mode" link (Daily has no "Play Again"). */
+    practiceBtn: HTMLElement | null;
+    /** Optional: the in-modal "Play Again" button (Practice only). */
+    playAgainBtn: HTMLElement | null;
+}
+
+/** Extra options for the end-of-game modal. */
+export interface ModalOptions {
+    /**
+     * Show the "Play Practice Mode" button. Used on Daily, where there's no
+     * in-page "Play Again", to route the player into endless practice.
+     */
+    showPractice?: boolean;
+    /**
+     * If provided, shows a "Play Again" button that runs this callback (and
+     * closes the modal first). Used in Practice to start a fresh round without
+     * leaving the modal. Omit for Daily, which has no restart.
+     */
+    onPlayAgain?: () => void;
 }
 
 let cached: ModalElements | null = null;
 let wired = false;
+/** Latest "Play Again" callback; invoked by the button's static click handler. */
+let playAgainHandler: (() => void) | null = null;
 
 /** Look up the modal markup once; returns null if it isn't present. */
 function getElements(): ModalElements | null {
@@ -40,6 +61,12 @@ function getElements(): ModalElements | null {
     const message = document.querySelector<HTMLElement>("#modal-message");
     const stats = document.querySelector<HTMLElement>("#modal-stats");
     const closeBtn = document.querySelector<HTMLElement>("#modal-close-btn");
+    const practiceBtn = document.querySelector<HTMLElement>(
+        "#modal-practice-btn"
+    );
+    const playAgainBtn = document.querySelector<HTMLElement>(
+        "#modal-play-again-btn"
+    );
 
     if (
         !overlay ||
@@ -53,8 +80,37 @@ function getElements(): ModalElements | null {
         return null;
     }
 
-    cached = { overlay, modal, icon, title, message, stats, closeBtn };
+    cached = {
+        overlay,
+        modal,
+        icon,
+        title,
+        message,
+        stats,
+        closeBtn,
+        practiceBtn,
+        playAgainBtn,
+    };
     return cached;
+}
+
+/** Toggle the practice button's visibility (no-op if it's absent). */
+function setPracticeVisible(els: ModalElements, visible: boolean): void {
+    if (els.practiceBtn) {
+        els.practiceBtn.hidden = !visible;
+    }
+}
+
+/**
+ * Register the "Play Again" callback and toggle the button accordingly. The
+ * button itself is wired once in {@link ensureWired}; here we just swap in the
+ * latest handler (or hide the button when there's nothing to do).
+ */
+function setPlayAgain(els: ModalElements, handler?: () => void): void {
+    playAgainHandler = handler ?? null;
+    if (els.playAgainBtn) {
+        els.playAgainBtn.hidden = !handler;
+    }
 }
 
 /** Attach close handlers once (backdrop click, OK button, Escape key). */
@@ -72,6 +128,12 @@ function ensureWired(els: ModalElements): void {
     });
 
     els.closeBtn.addEventListener("click", () => hideModal());
+
+    // "Play Again" closes the modal, then runs the current callback (if any).
+    els.playAgainBtn?.addEventListener("click", () => {
+        hideModal();
+        playAgainHandler?.();
+    });
 
     // Escape closes too — avoids trapping the user inside the dialog.
     document.addEventListener("keydown", (event) => {
@@ -103,7 +165,11 @@ function showModal(els: ModalElements): void {
  * Show the win modal and celebrate. `playerName` is the revealed answer and
  * `guessCount` is how many guesses it took.
  */
-export function showWinModal(playerName: string, guessCount: number): void {
+export function showWinModal(
+    playerName: string,
+    guessCount: number,
+    options: ModalOptions = {}
+): void {
     const els = getElements();
     if (!els) {
         return;
@@ -115,13 +181,18 @@ export function showWinModal(playerName: string, guessCount: number): void {
     els.message.append("The answer was ", strong(playerName));
     els.stats.textContent = `Solved in ${guessCount} / ${MAX_GUESSES} guesses`;
     els.modal.className = "modal modal--win";
+    setPracticeVisible(els, options.showPractice ?? false);
+    setPlayAgain(els, options.onPlayAgain);
 
     showModal(els);
     fireConfetti();
 }
 
 /** Show the loss modal (no confetti). `playerName` is the revealed answer. */
-export function showLossModal(playerName: string): void {
+export function showLossModal(
+    playerName: string,
+    options: ModalOptions = {}
+): void {
     const els = getElements();
     if (!els) {
         return;
@@ -133,6 +204,8 @@ export function showLossModal(playerName: string): void {
     els.message.append("The answer was ", strong(playerName));
     els.stats.textContent = `You used all ${MAX_GUESSES} guesses`;
     els.modal.className = "modal modal--loss";
+    setPracticeVisible(els, options.showPractice ?? false);
+    setPlayAgain(els, options.onPlayAgain);
 
     showModal(els);
 }

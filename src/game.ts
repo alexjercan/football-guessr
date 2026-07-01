@@ -118,6 +118,8 @@ export interface Game {
     getView(): GameView;
     /** Start a fresh game (re-picking the target) and return its view. */
     restart(): GameView;
+    /** Id of the current target player (for persistence keys/restore). */
+    getPlayerId(): string;
 }
 
 /**
@@ -150,6 +152,9 @@ export function createGame(
         restart(): GameView {
             state = createInitialState(pickPlayer(), maxGuesses);
             return toView(state);
+        },
+        getPlayerId(): string {
+            return state.player.id;
         },
     };
 }

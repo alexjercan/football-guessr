@@ -218,6 +218,13 @@ describe("createGame facade", () => {
         expect(view.guessesRemaining).toBe(MAX_GUESSES);
     });
 
+    it("exposes the current target's id via getPlayerId", () => {
+        const game = createGame([threeClubPlayer, accentPlayer], {
+            forcePlayer: accentPlayer,
+        });
+        expect(game.getPlayerId()).toBe("mbappe");
+    });
+
     it("selects the target via the injected rng", () => {
         const players = [threeClubPlayer, accentPlayer];
         expect(

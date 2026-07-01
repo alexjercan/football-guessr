@@ -36,3 +36,33 @@ export function dateToSeed(date: Date): number {
     const day = date.getUTCDate();
     return year * 10000 + month * 100 + day;
 }
+
+/** Milliseconds in a day — for whole-day arithmetic. */
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+/**
+ * Launch day of the Daily series (UTC midnight). Puzzle #1 is this date; the
+ * number increments once per UTC calendar day thereafter.
+ */
+export const DAILY_EPOCH = new Date("2026-07-01T00:00:00Z");
+
+/** Truncate a Date to UTC midnight (drops the time-of-day component). */
+function utcMidnight(date: Date): number {
+    return Date.UTC(
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate()
+    );
+}
+
+/**
+ * The Wordle-style puzzle number for a given date: whole UTC days since
+ * {@link DAILY_EPOCH}, plus one (so the epoch day is "#1"). Dates before the
+ * epoch clamp to 1 rather than going non-positive.
+ */
+export function dailyPuzzleNumber(date: Date): number {
+    const days = Math.floor(
+        (utcMidnight(date) - utcMidnight(DAILY_EPOCH)) / MS_PER_DAY
+    );
+    return Math.max(1, days + 1);
+}

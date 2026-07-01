@@ -56,6 +56,14 @@
                 >
                     Play Again
                 </button>
+                <a
+                    id="go-practice"
+                    class="game__go-practice"
+                    href="<%= htmlWebpackPlugin.options.basePath %>practice"
+                    hidden
+                >
+                    Play Practice Mode
+                </a>
             </section>
         </main>
         <div
@@ -75,13 +83,31 @@
                 <h2 id="modal-title" class="modal__title"></h2>
                 <p id="modal-message" class="modal__message"></p>
                 <p id="modal-stats" class="modal__stats"></p>
-                <button
-                    id="modal-close-btn"
-                    class="modal__close-btn"
-                    type="button"
-                >
-                    OK
-                </button>
+                <div class="modal__actions">
+                    <button
+                        id="modal-play-again-btn"
+                        class="modal__play-again-btn"
+                        type="button"
+                        hidden
+                    >
+                        Play Again
+                    </button>
+                    <a
+                        id="modal-practice-btn"
+                        class="modal__practice-btn"
+                        href="<%= htmlWebpackPlugin.options.basePath %>practice"
+                        hidden
+                    >
+                        Play Practice Mode
+                    </a>
+                    <button
+                        id="modal-close-btn"
+                        class="modal__close-btn"
+                        type="button"
+                    >
+                        OK
+                    </button>
+                </div>
             </div>
         </div>
         <div id="footer"></div>
