@@ -194,6 +194,13 @@ export async function mountGame({
             const modalOpts = {
                 showPractice: mode === "daily",
                 onPlayAgain: mode === "practice" ? startFreshGame : undefined,
+                share: {
+                    mode,
+                    won: view.status === "won",
+                    guessesUsed: view.guessesUsed,
+                    maxGuesses: view.maxGuesses,
+                    puzzleNumber,
+                },
             };
             if (view.status === "won") {
                 showWinModal(answer, view.guessesUsed, modalOpts);

@@ -460,6 +460,34 @@ main {
     display: none;
 }
 
+.modal__share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 28px;
+    border: 1px solid var(--amber-glow);
+    border-radius: 8px;
+    background: var(--amber-dim);
+    color: var(--amber-glow);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal__share-btn:hover {
+    background: var(--amber-glow);
+    color: var(--bg-dark);
+}
+
+.modal__share-btn:focus-visible {
+    outline: 2px solid var(--amber-glow);
+    outline-offset: 2px;
+}
+
+.modal__share-btn[hidden] {
+    display: none;
+}
+
 /* -- Profile / stats page ------------------------------------------------- */
 
 .profile-container {

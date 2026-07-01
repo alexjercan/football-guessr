@@ -1,14 +1,15 @@
 import confetti from "canvas-confetti";
 import { MAX_GUESSES } from "../game";
+import { ShareResult, buildShareText } from "../share";
 
 /**
- * End-of-game modal (win/loss). Adapted from the reference `modal.ts`; the
- * share button is intentionally omitted — Step 12 owns that. Visibility is
- * toggled with the `.active` class on the overlay.
+ * End-of-game modal (win/loss). Adapted from the reference `modal.ts`.
+ * Visibility is toggled with the `.active` class on the overlay.
  *
  * This module owns only the DOM: it looks up the modal markup once and mutates
  * it. All game logic stays in `game.ts`; callers pass in the already-decided
- * player name and guess count from the `GameView`.
+ * player name and guess count from the `GameView`. The shareable text itself is
+ * built by the pure `share.ts`; this module only copies it and gives feedback.
  */
 
 /** Palette reused from the game's CSS custom properties (gold/amber theme). */
@@ -26,6 +27,10 @@ interface ModalElements {
     practiceBtn: HTMLElement | null;
     /** Optional: the in-modal "Play Again" button (Practice only). */
     playAgainBtn: HTMLElement | null;
+    /** Optional: the "Share" button (shown once a game has ended). */
+    shareBtn: HTMLElement | null;
+    /** Optional: the label span inside the share button (swapped for feedback). */
+    shareLabel: HTMLElement | null;
 }
 
 /** Extra options for the end-of-game modal. */
@@ -41,12 +46,21 @@ export interface ModalOptions {
      * leaving the modal. Omit for Daily, which has no restart.
      */
     onPlayAgain?: () => void;
+    /**
+     * If provided, shows a "Share" button that copies a Wordle-style, spoiler-
+     * free summary of this result to the clipboard. Omit to hide the button.
+     */
+    share?: ShareResult;
 }
 
 let cached: ModalElements | null = null;
 let wired = false;
 /** Latest "Play Again" callback; invoked by the button's static click handler. */
 let playAgainHandler: (() => void) | null = null;
+/** Latest share payload; read by the share button's static click handler. */
+let currentShare: ShareResult | null = null;
+/** Pending timer that resets the share button label after feedback. */
+let shareResetTimer: ReturnType<typeof setTimeout> | null = null;
 
 /** Look up the modal markup once; returns null if it isn't present. */
 function getElements(): ModalElements | null {
@@ -67,6 +81,9 @@ function getElements(): ModalElements | null {
     const playAgainBtn = document.querySelector<HTMLElement>(
         "#modal-play-again-btn"
     );
+    const shareBtn = document.querySelector<HTMLElement>("#modal-share-btn");
+    const shareLabel =
+        document.querySelector<HTMLElement>("#modal-share-label");
 
     if (
         !overlay ||
@@ -90,6 +107,8 @@ function getElements(): ModalElements | null {
         closeBtn,
         practiceBtn,
         playAgainBtn,
+        shareBtn,
+        shareLabel,
     };
     return cached;
 }
@@ -113,6 +132,97 @@ function setPlayAgain(els: ModalElements, handler?: () => void): void {
     }
 }
 
+/** Reset the share button back to its idle "Share" label. */
+function resetShareLabel(els: ModalElements): void {
+    if (els.shareLabel) {
+        els.shareLabel.textContent = "Share";
+    }
+}
+
+/**
+ * Store the share payload and toggle the button. Also clears any lingering
+ * "Copied!" feedback from a previous game so the button reads "Share" again.
+ */
+function setShare(els: ModalElements, share?: ShareResult): void {
+    currentShare = share ?? null;
+    if (shareResetTimer !== null) {
+        clearTimeout(shareResetTimer);
+        shareResetTimer = null;
+    }
+    resetShareLabel(els);
+    if (els.shareBtn) {
+        els.shareBtn.hidden = !share;
+    }
+}
+
+/**
+ * Copy `text` to the clipboard, resolving to whether it worked. Tries the modern
+ * async Clipboard API first, then falls back to a hidden `<textarea>` +
+ * `execCommand("copy")` for older browsers and non-secure (HTTP) contexts where
+ * `navigator.clipboard` is unavailable or rejects.
+ */
+async function copyToClipboard(text: string): Promise<boolean> {
+    if (
+        typeof navigator !== "undefined" &&
+        navigator.clipboard &&
+        typeof navigator.clipboard.writeText === "function"
+    ) {
+        try {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch {
+            // Fall through to the legacy path (e.g. permission denied, or the
+            // page isn't a secure context).
+        }
+    }
+    return legacyCopy(text);
+}
+
+/** Last-resort clipboard copy via a temporary, off-screen textarea. */
+function legacyCopy(text: string): boolean {
+    try {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        // Keep it out of view and out of the layout/scroll.
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.top = "-1000px";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(textarea);
+        return ok;
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * Handle a share-button click: build the text from the current payload, copy
+ * it, and flash the outcome on the button label ("Copied!" / "Copy failed"),
+ * which resets back to "Share" after a moment.
+ */
+function handleShareClick(els: ModalElements): void {
+    if (!currentShare) {
+        return;
+    }
+    const text = buildShareText(currentShare);
+
+    void copyToClipboard(text).then((ok) => {
+        if (els.shareLabel) {
+            els.shareLabel.textContent = ok ? "Copied!" : "Copy failed";
+        }
+        if (shareResetTimer !== null) {
+            clearTimeout(shareResetTimer);
+        }
+        shareResetTimer = setTimeout(() => {
+            resetShareLabel(els);
+            shareResetTimer = null;
+        }, 2000);
+    });
+}
+
 /** Attach close handlers once (backdrop click, OK button, Escape key). */
 function ensureWired(els: ModalElements): void {
     if (wired) {
@@ -134,6 +244,10 @@ function ensureWired(els: ModalElements): void {
         hideModal();
         playAgainHandler?.();
     });
+
+    // "Share" copies the summary; the modal stays open so the player sees the
+    // "Copied!" feedback and can still use the other buttons.
+    els.shareBtn?.addEventListener("click", () => handleShareClick(els));
 
     // Escape closes too — avoids trapping the user inside the dialog.
     document.addEventListener("keydown", (event) => {
@@ -183,6 +297,7 @@ export function showWinModal(
     els.modal.className = "modal modal--win";
     setPracticeVisible(els, options.showPractice ?? false);
     setPlayAgain(els, options.onPlayAgain);
+    setShare(els, options.share);
 
     showModal(els);
     fireConfetti();
@@ -206,6 +321,7 @@ export function showLossModal(
     els.modal.className = "modal modal--loss";
     setPracticeVisible(els, options.showPractice ?? false);
     setPlayAgain(els, options.onPlayAgain);
+    setShare(els, options.share);
 
     showModal(els);
 }
