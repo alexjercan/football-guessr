@@ -1,6 +1,8 @@
 import { loadGameData } from "../dataLoader";
 import { createGame } from "../game";
+import { namesMatch, resolveGuess } from "../matching";
 import { GameView } from "../types";
+import { setupAutocomplete } from "./autocomplete";
 
 export interface MountGameOptions {
     /** Random source in [0, 1); the seam that separates Daily from Practice. */
@@ -21,10 +23,15 @@ export async function mountGame({
     const { players } = await loadGameData();
     const game = createGame(players, { rng });
 
+    // Derived once: the closed set of names a guess is allowed to resolve to.
+    const playerNames = players.map((p) => p.name);
+
     const modeEl = document.querySelector<HTMLElement>("#mode");
     const clubsEl = document.querySelector<HTMLUListElement>("#clubs");
     const formEl = document.querySelector<HTMLFormElement>("#guess-form");
     const inputEl = document.querySelector<HTMLInputElement>("#guess-input");
+    const autocompleteBox =
+        document.querySelector<HTMLElement>("#autocomplete-box");
     const submitEl = document.querySelector<HTMLButtonElement>(
         "#guess-form button[type='submit']"
     );
@@ -38,6 +45,7 @@ export async function mountGame({
         !clubsEl ||
         !formEl ||
         !inputEl ||
+        !autocompleteBox ||
         !submitEl ||
         !guessesLeftEl ||
         !statusEl ||
@@ -46,7 +54,13 @@ export async function mountGame({
         throw new Error("mountGame: required game markup is missing");
     }
 
+    // Tracks the guesses already made so autocomplete can hide them.
+    let pastGuesses: string[] = [];
+    const isGuessed = (name: string): boolean =>
+        pastGuesses.some((guess) => namesMatch(guess, name));
+
     const render = (view: GameView): void => {
+        pastGuesses = view.pastGuesses;
         modeEl.textContent = mode === "daily" ? "Daily" : "Practice";
 
         // Revealed clubs (rebuild the list from scratch each render).
@@ -71,21 +85,49 @@ export async function mountGame({
         const isOver = view.status !== "playing";
         inputEl.disabled = isOver;
         submitEl.disabled = isOver;
+        if (isOver) {
+            autocomplete.close();
+        }
 
         // "Play Again" only makes sense in Practice — Daily is one per day.
         playAgainEl.hidden = !(isOver && mode === "practice");
     };
 
-    formEl.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const view = game.submitGuess(inputEl.value);
+    // Populate the input with a resolved, real name and submit it immediately.
+    const submitResolved = (name: string): void => {
+        inputEl.value = name;
+        const view = game.submitGuess(name);
         inputEl.value = "";
         render(view);
         inputEl.focus();
+    };
+
+    const autocomplete = setupAutocomplete({
+        inputEl,
+        autocompleteBox,
+        playerNames,
+        isGuessed,
+        onSelect: submitResolved,
+    });
+
+    formEl.addEventListener("submit", (event) => {
+        event.preventDefault();
+        // Fuzzy-resolve the raw text to a real, not-yet-guessed player name.
+        // Invalid input (no match, e.g. "messss") resolves to null: we simply
+        // clear the box and swallow it — never counted, never a hint, no alert.
+        const resolved = resolveGuess(playerNames, inputEl.value, pastGuesses);
+        inputEl.value = "";
+        if (resolved !== null) {
+            submitResolved(resolved);
+        } else {
+            autocomplete.close();
+            inputEl.focus();
+        }
     });
 
     playAgainEl.addEventListener("click", () => {
         const view = game.restart();
+        inputEl.value = "";
         render(view);
         inputEl.focus();
     });

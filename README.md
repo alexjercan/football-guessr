@@ -12,7 +12,8 @@ career, so the longer you take, the more career history you have to work with.
 ## How to play
 
 - You're shown one of a mystery player's former clubs as your first hint.
-- Type a guess for the player's name and submit it.
+- Type a guess for the player's name and pick from the autocomplete dropdown, or
+  just press Enter and the closest matching real player is used.
 - **Wrong guess** → the next club in that player's career (chronological order) is
   revealed as an extra hint.
 - **Correct guess** → you win.
@@ -23,7 +24,11 @@ career, so the longer you take, the more career history you have to work with.
   revealed.
 
 Guessing is case-, whitespace-, and accent-insensitive, so `Mbappe` matches
-`Mbappé` and extra spaces don't count against you.
+`Mbappé` and extra spaces don't count against you. The input also **fuzzy-matches
+and autocompletes** against real players: partial or subsequence spellings like
+`Messi` or `LMess` resolve to `Lionel Messi`, already-guessed players are hidden,
+and input that matches no one (e.g. `Messss`) is ignored rather than wasting a
+guess.
 
 ### Two ways to play
 
@@ -106,13 +111,14 @@ src/
   data/players.json     # player dataset (id, name, chronological clubs[])
   types.ts              # shared types (PlayerEntry, GameState, GameView)
   game.ts               # framework-agnostic game loop (pure reducer + facade)
-  matching.ts           # case/whitespace/accent-insensitive name matching
+  matching.ts           # name matching + fuzzy autocomplete resolution (pure)
   dataLoader.ts helpers.ts    # dataset fetch + RNG/util helpers
   index.html            # shared game page template (Daily + Practice)
   index.ts              # home page — Daily game
   practice.ts           # Practice page — random player + Play Again
   faq.* profile.*       # additional pages
   ui/mountGame.ts       # wires the DOM to the game logic
+  ui/autocomplete.ts    # type-ahead dropdown DOM wiring (uses matching.ts)
   _header.html / _footer.html # shared HTML partials
   style.css             # Tailwind entry
   assets/               # SVG assets
@@ -130,15 +136,17 @@ split into steps 0–6.
 Every V1 step is done: project setup, the Webpack multi-page build, the starter
 dataset, the framework-agnostic game loop, and the playable Daily + Practice
 pages. `npm run build` produces a working standalone `dist/`, and the game logic
-is covered by the Jest suite (41 tests across `game`, `matching`, and `helpers`).
-Follow-up ideas are gathered in the V2 breakdown (`tasks/20260701-105230/TASK.md`).
+is covered by the Jest suite (62 tests across `game`, `matching`/autocomplete,
+and `helpers`). Follow-up ideas are gathered in the V2 breakdown
+(`tasks/20260701-105230/TASK.md`); V2 Step 7 (fuzzy autocomplete) is complete.
 
 ### Out of scope for V1
 
 Deliberately deferred so the initial scope stays small:
 
-- Fuzzy name matching and autocomplete (V1 already handles case, whitespace, and
-  accents, but expects otherwise-correct spelling)
+- ~~Fuzzy name matching and autocomplete~~ — **added in V2** (see
+  `tasks/20260701-111642/TASK.md`); V1 shipped with case/whitespace/accent
+  normalization only and expected otherwise-correct spelling
 - A large or externally sourced dataset (V1 uses a small hand-picked list)
 - Club crests / images and difficulty levels
 - Accounts, persistence, or leaderboards

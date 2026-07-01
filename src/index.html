@@ -17,14 +17,26 @@
                 <p id="mode" class="game__mode"></p>
                 <ul id="clubs" class="game__clubs"></ul>
                 <form id="guess-form" class="game__form">
-                    <input
-                        id="guess-input"
-                        name="guess"
-                        type="text"
-                        autocomplete="off"
-                        placeholder="Guess the footballer…"
-                        aria-label="Guess the footballer"
-                    />
+                    <div class="game__input-wrap">
+                        <input
+                            id="guess-input"
+                            name="guess"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Guess the footballer…"
+                            aria-label="Guess the footballer"
+                            role="combobox"
+                            aria-autocomplete="list"
+                            aria-expanded="false"
+                            aria-controls="autocomplete-box"
+                        />
+                        <div
+                            id="autocomplete-box"
+                            class="autocomplete"
+                            role="listbox"
+                            hidden
+                        ></div>
+                    </div>
                     <button type="submit">Guess</button>
                 </form>
                 <p class="game__guesses">

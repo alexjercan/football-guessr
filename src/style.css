@@ -176,8 +176,16 @@ main {
     margin-bottom: 12px;
 }
 
+.game__input-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
 #guess-input {
     flex: 1;
+    width: 100%;
+    box-sizing: border-box;
     padding: 10px 14px;
     border: 1px solid var(--glass-border);
     border-radius: 8px;
@@ -194,6 +202,45 @@ main {
 #guess-input:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+/* -- Autocomplete dropdown ------------------------------------------------ */
+
+.autocomplete {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 30;
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    /* backdrop-filter keeps the board faintly visible behind the list. */
+    backdrop-filter: blur(6px);
+}
+
+.autocomplete[hidden] {
+    display: none;
+}
+
+.autocomplete__item {
+    padding: 10px 14px;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: background 0.12s ease;
+}
+
+.autocomplete__item + .autocomplete__item {
+    border-top: 1px solid var(--amber-glow-faint);
+}
+
+.autocomplete__item:hover,
+.autocomplete__item.is-active {
+    background: var(--amber-dim);
+    color: var(--amber-glow);
 }
 
 .game__form button,
