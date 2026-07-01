@@ -1,3 +1,127 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --bg-dark: #0a0c10;
+    --amber-glow: #e6a861;
+    --amber-dim: rgba(230, 168, 97, 0.2);
+    --amber-outline: rgba(230, 168, 97, 0.35);
+    --amber-glow-soft: rgba(230, 168, 97, 0.15);
+    --amber-glow-faint: rgba(230, 168, 97, 0.05);
+    --glass-bg: rgba(20, 24, 32, 0.85);
+    --glass-border: rgba(230, 168, 97, 0.4);
+    --text-main: #e0e0e0;
+    --victory-gold: #ffd700;
+    --danger-red: #ff4a4a;
+    --node-bg: #151820;
+    --line-color: #555;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 2px solid var(--amber-glow);
+    background: var(--bg-dark);
+    flex-shrink: 0;
+    position: relative;
+}
+
+
+footer {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    padding: 14px 20px;
+    background: #080a0d;
+    border-top: 1px solid #222;
+    z-index: 20;
+}
+
+footer a {
+    color: #8a93a5;
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+}
+
+footer a:hover {
+    color: var(--amber-glow);
+}
+
+footer a + a {
+    position: relative;
+    padding-left: 24px;
+}
+
+footer a + a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 14px;
+    background: #333;
+}
+
+.game-title {
+    margin: 0;
+    font-size: 2rem;
+    color: var(--amber-glow);
+    letter-spacing: 2px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.game-title:hover {
+    color: var(--text-main);
+    transform: scale(1.05);
+}
+
+.profile-button {
+    position: absolute;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.profile-button:hover {
+    background: var(--amber-dim);
+    border-color: var(--amber-glow);
+    transform: scale(1.1);
+}
+
+.profile-icon {
+    width: 100%;
+    height: 100%;
+    filter: brightness(0) invert(1);
+}

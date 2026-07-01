@@ -1,6 +1,6 @@
 # Football Club Guesser - V1 Task Breakdown
 
-- STATUS: IN_PROGRESS
+- STATUS: CLOSED
 - PRIORITY: 100
 - TAGS: planning,docs
 
@@ -56,20 +56,20 @@ A single HTML page where a user can see a club hint, type a player name guess, s
 
 - [x] Install webpack, webpack-cli, ts-loader (or babel-loader), and webpack-dev-server
 - [x] Install `html-webpack-plugin` to inject the bundled JS into `index.html`
-- [ ] Create `webpack.config.js`:
+- [x] Create `webpack.config.js`:
   - entry: `src/index.ts`
   - output: bundled JS to `dist/`
   - module rule for `.ts` via ts-loader
   - HtmlWebpackPlugin pointing at `public/index.html` as template
-- [ ] Add npm scripts: `build` (production bundle) and `start`/`dev` (webpack-dev-server with live reload)
-- [ ] Verify a "Hello World" TypeScript file builds and renders in the browser before moving on
+- [x] Add npm scripts: `build` (production bundle) and `start`/`dev` (webpack-dev-server with live reload)
+- [x] Verify a "Hello World" TypeScript file builds and renders in the browser before moving on
 
 ---
 
 ## Task 3 — Initial Player Dataset
 **Goal:** A small but real dataset to power the game.
 
-- [ ] Decide on data shape, e.g.:
+- [x] Decide on data shape, e.g.:
   ```ts
   interface PlayerEntry {
     id: string;
@@ -77,8 +77,8 @@ A single HTML page where a user can see a club hint, type a player name guess, s
     clubs: string[]; // in chronological order, first club first
   }
   ```
-- [ ] Create `src/data/players.ts` (or `players.json`) with a hand-picked starter list (10–20 well-known players is plenty for V1 — e.g. Neymar, Messi, Ronaldo, Mbappé, etc.)
-- [ ] Keep club names as plain strings for V1 (no crest images, no IDs/normalization needed yet)
+- [x] Create `src/data/players.ts` (or `players.json`) with a hand-picked starter list (10–20 well-known players is plenty for V1 — e.g. Neymar, Messi, Ronaldo, Mbappé, etc.)
+- [x] Keep club names as plain strings for V1 (no crest images, no IDs/normalization needed yet)
 - [ ] Write a tiny helper to pick a random player from the dataset for a new game
 
 **Note:** Don't over-invest here — a hardcoded array is fine for V1. A "real" data source (API/scraping) can be a later task.
@@ -105,7 +105,7 @@ A single HTML page where a user can see a club hint, type a player name guess, s
 ## Task 5 — HTML Page to Play the Game
 **Goal:** Minimal, unstyled UI that lets a human actually play using the Task 4 logic.
 
-- [ ] `public/index.html`: barebones structure — a place to show the current club hint(s), a text input for guesses, a submit button, a guesses-remaining counter, and a result/status message area
+- [ ] `src/index.html`: barebones structure — a place to show the current club hint(s), a text input for guesses, a submit button, a guesses-remaining counter, and a result/status message area
 - [ ] `src/index.ts`: wires up DOM elements to the game logic
   - on submit: call `submitGuess`, re-render hint list / guesses left / status
   - on win: display success message with player name
