@@ -814,6 +814,21 @@ footer a:focus-visible {
     display: none;
 }
 
+/* Unseen-hint indicator: set by panel.ts (data-new) when a hint is revealed
+   while the drawer is closed on mobile — the closed-state cue that replaces
+   auto-open. Cleared on open. Gold reads clearly against the green tab. */
+.hint-panel-pull[data-new]::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--victory-gold);
+    box-shadow: 0 0 6px var(--victory-gold);
+}
+
 .hint-panel-pull__icon {
     font-size: 1.2rem;
     line-height: 1;
@@ -1088,4 +1103,25 @@ footer a:focus-visible {
 .hint-guess__name {
     font-size: 0.9rem;
     color: var(--text-main);
+}
+
+/* Mobile: the centered 85vw drawer would cover the game card, so make it a
+   full-width overlay the player opens deliberately (panel.ts suppresses
+   auto-open here). Keep the 640px breakpoint in sync with isNarrowViewport()
+   in src/ui/panel.ts. */
+@media (max-width: 640px) {
+    .hint-panel {
+        width: 100%;
+        max-width: 100%;
+        max-height: 88vh;
+        border-radius: 0;
+    }
+
+    /* The pull tab and close button are the only ways in/out on mobile — give
+       them >=44x44px hit areas (WCAG 2.5.5). */
+    .hint-panel-pull,
+    .hint-panel__close {
+        min-width: 44px;
+        min-height: 44px;
+    }
 }
