@@ -64,16 +64,17 @@ A Nix flake provides an optional reproducible dev shell (`nix develop`).
 - **Stats are derived, not logged.** There is no results log; `gameStats.ts`
   replays each saved game's guesses against its player to compute the profile
   page. Keep it consistent with `game.ts` if you change the reducer.
-- **The dataset is generated, and clubs are entities.** Edit
-  `src/data/players.source.json` (clubs written as plain display names), then run
-  `npm run gen:data` to regenerate `players.json` (clubs as stable ids) and
-  `clubs.json` (id → `{ name, country?, crest? }`). Never hand-edit the two
-  generated files. The loader resolves club ids back to display names, so
-  `PlayerEntry.clubs` stays `string[]` and the reducer/matching/stats are
-  unaffected. **Saved-game safety:** player `id`s are storage keys — keep them
-  (and each player's club order) stable, or you orphan saved games. Player
-  `photo`/`description` and club `crest` are optional schema fields, unset until
-  the art-assets work (V3b); clubs still render as initials.
+- **Clubs are entities; one hand-authored data file.** `src/data/data.json` has
+  two maps keyed by stable slug id: `players` (`id → { name, clubs: [clubIds] }`)
+  and `clubs` (`id → { name, country?, crest? }`). A player references clubs by
+  id; the loader (`dataLoader.ts`) looks each id up in `clubs` to get the display
+  name, so `PlayerEntry.clubs` stays `string[]` and the reducer/matching/stats
+  are unaffected. A club id is the slugified display name (a test enforces this,
+  plus referential integrity — every referenced club id must exist). **Saved-game
+  safety:** player ids are storage keys — keep them (and each player's club
+  order) stable, or you orphan saved games (a test locks the original four).
+  Player `photo`/`description` and club `crest` are optional, unset until the
+  art-assets work (V3b); clubs still render as initials.
 
 ## Directory Layout
 
@@ -81,8 +82,7 @@ A Nix flake provides an optional reproducible dev shell (`nix develop`).
 src/
   game.ts          Core game reducer — framework-agnostic and pure (the heart of the logic)
   matching.ts      Fuzzy/accent-insensitive guess resolution and name matching
-  dataLoader.ts    Loads players.json + clubs.json, resolves club ids -> display names
-  dataGen.ts       Pure data-generation transform (slugify, club map, id-ify) — shared by the loader + generator
+  dataLoader.ts    Loads data.json, resolves club ids -> display names
   gameStats.ts     Stats derivation (replays saved games)
   gameStorage.ts   Save/load a single game record
   storage.ts       localStorage provider — injectable so logic stays testable
@@ -90,15 +90,11 @@ src/
   helpers.ts       Shared pure utilities
   types.ts         Shared types (GameView, PlayerEntry, ...)
   ui/              DOM-only modules, coverage-excluded: mountGame, modal, panel, autocomplete
-  data/players.source.json  Editable dataset source (clubs as display names) — the source of truth
-  data/players.json  Generated: players with clubs as club-ids (do not hand-edit)
-  data/clubs.json    Generated: club id -> { name, country?, crest? } map (do not hand-edit)
+  data/data.json     The puzzle dataset: `players` + `clubs` maps keyed by slug id
   assets/          SVGs (crest placeholder, icons, share/profile glyphs)
   *.html           Page templates + _header/_footer partials (index reused for Daily+Practice)
   index.ts / practice.ts / profile.ts / faq.ts  Per-page entry points
   style.css        All theming — CSS custom properties live at :root
-scripts/
-  generate-data.ts Thin runner: players.source.json -> players.json + clubs.json (npm run gen:data, via tsx)
 test/              Jest unit tests for the pure logic layer
 tasks/             tatr tasks — the source of truth (see Task Management)
 docs/solutions/    documented solutions to past problems (bugs, best practices, workflow patterns), by category with YAML frontmatter (module, tags, problem_type)
@@ -122,8 +118,8 @@ dist/              Build output (generated; never hand-edit)
 ## Testing
 
 - `npm test` runs Jest (ts-jest) against `test/`. Add or extend tests for any
-  change to the pure logic layer (`game`, `matching`, `dataLoader`, `dataGen`,
-  `gameStats`, `gameStorage`, `storage`, `share`, `helpers`).
+  change to the pure logic layer (`game`, `matching`, `dataLoader`, `gameStats`,
+  `gameStorage`, `storage`, `share`, `helpers`).
 - **Coverage is enforced** via `npm run test:coverage` (part of `ci`). Global
   thresholds: branches 65 / functions 95 / lines 93 / statements 89. Excluded by
   design: `src/ui/**` (DOM-heavy), `*.d.ts`, and the page entry points
@@ -139,7 +135,7 @@ dist/              Build output (generated; never hand-edit)
   and `fix:` both seem to fit); `docs:` for docs-only files; plus
   `refactor:` / `chore:` / `test:` / `style:` / `perf:` when they describe the
   change more precisely. Product content that happens to be Markdown/JSON/CSS
-  (`players.json`, `style.css`, `*.html`) is **not** `docs:`.
+  (`data.json`, `style.css`, `*.html`) is **not** `docs:`.
 - Heuristic: if a regression test you could write today would have failed
   *before* the change, it is a `fix:`.
 - **Never add `!` or a `BREAKING CHANGE:` footer without explicit confirmation.**

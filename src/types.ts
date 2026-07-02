@@ -28,20 +28,30 @@ export interface RawClub {
     crest?: string;
 }
 
-/** The `clubs.json` map: stable club id -> club entity. */
+/** Map of stable club id -> club entity (the `clubs` section of the data file). */
 export type ClubMap = Record<string, RawClub>;
 
 /**
- * Shape of an entry in the committed `players.json`. `clubs` here are club
- * *ids* (keys into {@link ClubMap}); the loader resolves them to the display
- * names {@link PlayerEntry} exposes.
+ * A player as stored in the data file. The player id is the *key* in the
+ * `players` map, so it is not repeated here. `clubs` are club *ids* (keys into
+ * {@link ClubMap}); the loader resolves them to the display names
+ * {@link PlayerEntry} exposes.
  */
-export interface RawPlayerEntry {
-    id: string;
+export interface RawPlayer {
     name: string;
     clubs: string[];
     photo?: string;
     description?: string;
+}
+
+/**
+ * The single committed dataset (`src/data/data.json`): players and clubs keyed
+ * by their stable slug ids. A player references clubs by id; the loader looks
+ * each id up in `clubs` to get the display name.
+ */
+export interface GameFile {
+    players: Record<string, RawPlayer>;
+    clubs: ClubMap;
 }
 
 /** Lifecycle of a single game. */

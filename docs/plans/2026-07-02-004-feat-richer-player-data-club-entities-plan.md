@@ -12,6 +12,20 @@ depth: standard
 
 # feat: Richer player data, club-as-entity shape, and a data generator
 
+> **Revision (post-review, superseding KTD2/KTD3 + U2/U4 + the generator):**
+> the generator pipeline (`players.source.json` → `scripts/generate-data.ts` →
+> `players.json` + `clubs.json`, via `tsx`) was dropped in favor of a **single
+> hand-authored `src/data/data.json`** with two id-keyed maps, `players`
+> (`id → { name, clubs: [clubIds] }`) and `clubs` (`id → { name, country? }`).
+> The loader resolves club ids → display names exactly as planned (R1/R5 hold);
+> what changed is that ids are authored by hand rather than slugified by a build
+> step. The generator's guarantees are replaced by tests: referential integrity
+> (every referenced club id exists) and club-id-is-slug consistency, plus the
+> legacy-id/sequence lock (R6). No `dataGen.ts`, `scripts/`, `tsx`, or
+> `gen:data`. Everything below about *what* the data expresses still holds; the
+> generator-specific mechanics (KTD2/KTD3, U2, U4, Output Structure) are
+> historical.
+
 ## Summary
 
 Promote the minimal `players.json` dataset (`{ id, name, clubs: string[] }`, 4 smoke-test players) to a richer, generated dataset: clubs become referenceable **entities** with stable ids (keyed in a new `clubs.json` map), players gain optional `photo`/`description` fields, and a **generator pipeline** turns an editable source list into the app-consumed data files. The generator is the headline deliverable — it is "the way to generate more data" the request asks for: add players (with clubs as plain display names) to a source file, run one npm script, and the normalized id-based `players.json` + deduplicated `clubs.json` are regenerated. The player pool is expanded well beyond the 4-player smoke set as part of this work.
