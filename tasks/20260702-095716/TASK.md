@@ -1,6 +1,6 @@
 # CI/CD — GitHub Actions: test+lint on PR, deploy to GitHub Pages
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 90
 - TAGS: ci,cd,deploy,github-actions
 

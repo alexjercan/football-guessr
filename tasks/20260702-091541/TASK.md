@@ -1,6 +1,6 @@
 # Mobile hint-drawer UX — auto-open overlaps the game card on narrow screens
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 48
 - TAGS: ux,mobile,followup
 
