@@ -23,9 +23,19 @@ A Nix flake provides an optional reproducible dev shell (`nix develop`).
 ## Task Management (source of truth)
 
 - **`tatr` tasks under `./tasks/` are the single source of truth for what needs
-  to be done.** Consult them before starting work; keep each task's `STATUS`
-  current (`OPEN` -> `IN_PROGRESS` -> `CLOSED`); and record what actually changed
-  in that task's `TASK.md` when you close it.
+  to be done.** Consult them before starting work and keep each task's `STATUS`
+  current across its whole lifecycle.
+- **Update the task's `STATUS` as part of implementing it — this is not
+  optional, and it applies to automated flows (`/lfg`, `ce-work`) too, not just
+  manual work:**
+  - When you **start** implementing a task, set `STATUS: OPEN -> IN_PROGRESS`.
+  - When the work **ships** (its PR merges, or it lands on `master`), set
+    `STATUS: IN_PROGRESS -> CLOSED` **and** record what actually changed in that
+    task's `TASK.md` (a short "What changed" note + the PR link).
+  - A task whose PR is open but not yet merged stays `IN_PROGRESS` with a note
+    pointing at the PR — do not mark it `CLOSED` until it merges.
+  If a workflow implements a task without touching its `STATUS`, the task file
+  has drifted from reality; fixing it is part of finishing the work.
 - Create with `tatr new "<title>" -p <priority> -t <tags>`; list with
   `tatr ls --sort priority`. Each task is `tasks/<YYYYMMDD-HHMMSS>/TASK.md`; edit
   the `STATUS` line directly (there is no CLI edit command).
