@@ -1,6 +1,6 @@
 # Create AGENTS.md
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 100
 - TAGS: claude,agents
 
