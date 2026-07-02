@@ -60,18 +60,20 @@ let lastRevealedCount = -1;
 let prevOpen = false;
 
 /**
- * Live media query for the mobile breakpoint, where the drawer covers the game
- * card. Cached once — `matchMedia` returns a live `MediaQueryList`, so `.matches`
- * stays current — and guarded so non-browser/test contexts fall back to desktop.
- * Keep the 640px value in sync with the `@media (max-width: 640px)` block in
+ * Live media query for breakpoint B — below it the drawer covers the game card
+ * (on-demand full-width overlay); at/above it the panel is a persistent in-flow
+ * column and the drawer machinery here is inert. Cached once — `matchMedia`
+ * returns a live `MediaQueryList`, so `.matches` stays current — and guarded so
+ * non-browser/test contexts fall back to desktop. Keep the 820px value in sync
+ * with the `@media (max-width: 820px)` / `@media (min-width: 821px)` blocks in
  * `src/style.css`.
  */
 const narrowViewport =
     typeof window !== "undefined" && typeof window.matchMedia === "function"
-        ? window.matchMedia("(max-width: 640px)")
+        ? window.matchMedia("(max-width: 820px)")
         : null;
 
-/** True on narrow (mobile) viewports. */
+/** True below breakpoint B — the drawer/on-demand model applies. */
 function isNarrowViewport(): boolean {
     return narrowViewport?.matches ?? false;
 }
