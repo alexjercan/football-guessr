@@ -77,7 +77,6 @@ export async function mountGame({
     }
 
     const modeEl = document.querySelector<HTMLElement>("#mode");
-    const clubsEl = document.querySelector<HTMLUListElement>("#clubs");
     const formEl = document.querySelector<HTMLFormElement>("#guess-form");
     const inputEl = document.querySelector<HTMLInputElement>("#guess-input");
     const autocompleteBox =
@@ -94,7 +93,6 @@ export async function mountGame({
 
     if (
         !modeEl ||
-        !clubsEl ||
         !formEl ||
         !inputEl ||
         !autocompleteBox ||
@@ -154,16 +152,8 @@ export async function mountGame({
         pastGuesses = view.pastGuesses;
         modeEl.textContent = modeLabel;
 
-        // Revealed clubs (rebuild the list from scratch each render).
-        clubsEl.textContent = "";
-        for (const club of view.revealedClubs) {
-            const li = document.createElement("li");
-            li.textContent = club;
-            clubsEl.appendChild(li);
-        }
-
-        // Mirror the revealed clubs + wrong guesses into the hint panel (no-op
-        // if the panel markup isn't present).
+        // Revealed clubs (career path) + wrong guesses live in the hint panel
+        // (no-op if the panel markup isn't present).
         renderPanel(view);
 
         guessesLeftEl.textContent = String(view.guessesRemaining);
