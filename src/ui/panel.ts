@@ -225,15 +225,24 @@ export function createClubCard(name: string, latest = false): HTMLElement {
     return card;
 }
 
-/** Build a compact card for one past (wrong) guess: just the name for now. */
+/**
+ * Build a compact card for one past (wrong) guess. A small "red card" chip
+ * (referee booking) leads the name — a wrong guess is a booking against you.
+ */
 export function createGuessCard(name: string): HTMLElement {
     const card = document.createElement("li");
     card.className = "hint-guess";
+
+    // Decorative red card; the adjacent name carries the meaning for a11y.
+    const redCard = document.createElement("span");
+    redCard.className = "hint-guess__card";
+    redCard.setAttribute("aria-hidden", "true");
 
     const label = document.createElement("span");
     label.className = "hint-guess__name";
     label.textContent = name;
 
+    card.appendChild(redCard);
     card.appendChild(label);
     return card;
 }

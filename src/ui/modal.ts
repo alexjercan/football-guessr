@@ -12,8 +12,12 @@ import { ShareResult, buildShareText } from "../share";
  * built by the pure `share.ts`; this module only copies it and gives feedback.
  */
 
-/** Palette reused from the game's CSS custom properties (gold/amber theme). */
-const CONFETTI_COLORS = ["#ffd700", "#e6a861", "#ffec8b", "#ffffff"];
+/**
+ * Confetti palette, tuned to pop against the pitch-green/dark theme: trophy gold
+ * + pale gold, chalk white, and the pitch-green accent (the old warm tan was
+ * dropped — it muddied against the green background).
+ */
+const CONFETTI_COLORS = ["#ffd700", "#ffec8b", "#ffffff", "#3fb950"];
 
 interface ModalElements {
     overlay: HTMLElement;

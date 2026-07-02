@@ -3,24 +3,35 @@
 @tailwind utilities;
 
 :root {
-    --bg-dark: #0a0c10;
-    --amber-glow: #e6a861;
-    --amber-dim: rgba(230, 168, 97, 0.2);
-    --amber-outline: rgba(230, 168, 97, 0.35);
-    --amber-glow-soft: rgba(230, 168, 97, 0.15);
-    --amber-glow-faint: rgba(230, 168, 97, 0.05);
-    --glass-bg: rgba(20, 24, 32, 0.85);
-    --glass-border: rgba(230, 168, 97, 0.4);
+    /* Pitch-green + dark theme. Accent + glows read from --pitch-*; chalk white
+       is reserved for pitch-line detailing (dividers/markings) in V4.2+. */
+    --bg-dark: #0a0f0a;
+    --pitch-green: #3fb950;
+    --pitch-dim: rgba(63, 185, 80, 0.2);
+    --pitch-outline: rgba(63, 185, 80, 0.35);
+    --pitch-glow-soft: rgba(63, 185, 80, 0.15);
+    --pitch-glow-faint: rgba(63, 185, 80, 0.05);
+    --chalk: #e8e8e8;
+    --glass-bg: rgba(18, 26, 20, 0.85);
+    --glass-border: rgba(63, 185, 80, 0.4);
     --text-main: #e0e0e0;
     --victory-gold: #ffd700;
     --danger-red: #ff4a4a;
-    --node-bg: #151820;
-    --line-color: #555;
+    --node-bg: #131a13;
 }
 
 body {
     margin: 0;
     background-color: var(--bg-dark);
+    /* Subtle mowed-pitch stripes: wide, alternating vertical bands, kept very
+       faint so they read as calm texture rather than a distracting pattern. */
+    background-image: repeating-linear-gradient(
+        90deg,
+        rgba(63, 185, 80, 0.035) 0,
+        rgba(63, 185, 80, 0.035) 160px,
+        transparent 160px,
+        transparent 320px
+    );
     color: var(--text-main);
     font-family: "Segoe UI", Tahoma, sans-serif;
     min-height: 100vh;
@@ -33,7 +44,10 @@ header {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    border-bottom: 2px solid var(--amber-glow);
+    /* Chalk touchline under the header (pitch-line motif), lifted by a faint
+       green glow so it still ties to the accent. */
+    border-bottom: 2px solid var(--chalk);
+    box-shadow: 0 2px 12px var(--pitch-glow-faint);
     background: var(--bg-dark);
     flex-shrink: 0;
     position: relative;
@@ -46,8 +60,11 @@ footer {
     align-items: center;
     gap: 24px;
     padding: 14px 20px;
-    background: #080a0d;
-    border-top: 1px solid #222;
+    /* Distinct panel colour (a touch greener/lighter than the page) with a chalk
+       touchline on top, echoing the header so the pitch is framed top & bottom. */
+    background: var(--node-bg);
+    border-top: 2px solid var(--chalk);
+    box-shadow: 0 -2px 12px var(--pitch-glow-faint);
     z-index: 20;
 }
 
@@ -60,7 +77,7 @@ footer a {
 }
 
 footer a:hover {
-    color: var(--amber-glow);
+    color: var(--pitch-green);
 }
 
 footer a + a {
@@ -82,7 +99,7 @@ footer a + a::before {
 .game-title {
     margin: 0;
     font-size: 2rem;
-    color: var(--amber-glow);
+    color: var(--pitch-green);
     letter-spacing: 2px;
     text-align: center;
     cursor: pointer;
@@ -114,8 +131,8 @@ footer a + a::before {
 }
 
 .profile-button:hover {
-    background: var(--amber-dim);
-    border-color: var(--amber-glow);
+    background: var(--pitch-dim);
+    border-color: var(--pitch-green);
     transform: scale(1.1);
 }
 
@@ -142,7 +159,7 @@ main {
     border: 1px solid var(--glass-border);
     border-radius: 12px;
     padding: 24px;
-    box-shadow: 0 0 24px var(--amber-glow-soft);
+    box-shadow: 0 0 24px var(--pitch-glow-soft);
 }
 
 .game__mode {
@@ -150,7 +167,7 @@ main {
     font-size: 0.75rem;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--amber-glow);
+    color: var(--pitch-green);
 }
 
 .game__clubs {
@@ -160,13 +177,38 @@ main {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    /* Number the revealed clubs like a squad sheet (see li::before). */
+    counter-reset: kit;
 }
 
 .game__clubs li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     padding: 10px 14px;
-    border: 1px solid var(--amber-outline);
+    border: 1px solid var(--pitch-outline);
     border-radius: 8px;
-    background: var(--amber-glow-faint);
+    background: var(--pitch-glow-faint);
+}
+
+/* Kit number: each revealed club wears its reveal order as a shirt-number
+   patch, framing the hint list as the player's squad-sheet / career order. */
+.game__clubs li::before {
+    counter-increment: kit;
+    content: counter(kit);
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--chalk);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.25);
+    color: var(--chalk);
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
 }
 
 .game__form {
@@ -195,12 +237,28 @@ main {
 
 #guess-input:focus {
     outline: none;
-    border-color: var(--amber-glow);
+    border-color: var(--pitch-green);
+    /* Non-color-only cue: a visible focus ring, not just a border recolor. */
+    box-shadow: 0 0 0 3px var(--pitch-glow-soft);
 }
 
 #guess-input:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+/* Consistent, visible keyboard focus for interactive elements that would
+   otherwise fall back to the UA ring (faint on the dark theme). */
+.game-title:focus-visible,
+.profile-button:focus-visible,
+.game__form button:focus-visible,
+.game__play-again:focus-visible,
+.game__go-practice:focus-visible,
+.profile-back a:focus-visible,
+footer a:focus-visible {
+    outline: 2px solid var(--pitch-green);
+    outline-offset: 2px;
+    border-radius: 4px;
 }
 
 /* -- Autocomplete dropdown ------------------------------------------------ */
@@ -233,22 +291,22 @@ main {
 }
 
 .autocomplete__item + .autocomplete__item {
-    border-top: 1px solid var(--amber-glow-faint);
+    border-top: 1px solid var(--pitch-glow-faint);
 }
 
 .autocomplete__item:hover,
 .autocomplete__item.is-active {
-    background: var(--amber-dim);
-    color: var(--amber-glow);
+    background: var(--pitch-dim);
+    color: var(--pitch-green);
 }
 
 .game__form button,
 .game__play-again {
     padding: 10px 16px;
-    border: 1px solid var(--amber-glow);
+    border: 1px solid var(--pitch-green);
     border-radius: 8px;
-    background: var(--amber-dim);
-    color: var(--amber-glow);
+    background: var(--pitch-dim);
+    color: var(--pitch-green);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -256,12 +314,15 @@ main {
 
 .game__form button:hover,
 .game__play-again:hover {
-    background: var(--amber-glow);
+    background: var(--pitch-green);
     color: var(--bg-dark);
 }
 
 .game__guesses {
     margin: 0 0 8px;
+    /* Chalk pitch-line separating the score readout from the input above. */
+    padding-top: 12px;
+    border-top: 1px dashed rgba(232, 232, 232, 0.22);
     font-size: 0.9rem;
     color: #8a93a5;
 }
@@ -333,7 +394,7 @@ main {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: 14px;
-    box-shadow: 0 0 40px var(--amber-glow-soft);
+    box-shadow: 0 0 40px var(--pitch-glow-soft);
     transform: translateY(12px) scale(0.97);
     transition:
         transform 0.2s ease,
@@ -379,7 +440,7 @@ main {
 }
 
 .modal__message strong {
-    color: var(--amber-glow);
+    color: var(--pitch-green);
 }
 
 .modal__stats {
@@ -397,32 +458,32 @@ main {
 
 .modal__close-btn {
     padding: 10px 28px;
-    border: 1px solid var(--amber-glow);
+    border: 1px solid var(--pitch-green);
     border-radius: 8px;
-    background: var(--amber-dim);
-    color: var(--amber-glow);
+    background: var(--pitch-dim);
+    color: var(--pitch-green);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .modal__close-btn:hover {
-    background: var(--amber-glow);
+    background: var(--pitch-green);
     color: var(--bg-dark);
 }
 
 .modal__close-btn:focus-visible,
 .modal__practice-btn:focus-visible,
 .modal__play-again-btn:focus-visible {
-    outline: 2px solid var(--amber-glow);
+    outline: 2px solid var(--pitch-green);
     outline-offset: 2px;
 }
 
 .modal__play-again-btn {
     padding: 10px 28px;
-    border: 1px solid var(--amber-glow);
+    border: 1px solid var(--pitch-green);
     border-radius: 8px;
-    background: var(--amber-glow);
+    background: var(--pitch-green);
     color: var(--bg-dark);
     font-weight: 600;
     cursor: pointer;
@@ -430,8 +491,8 @@ main {
 }
 
 .modal__play-again-btn:hover {
-    background: var(--amber-dim);
-    color: var(--amber-glow);
+    background: var(--pitch-dim);
+    color: var(--pitch-green);
 }
 
 .modal__play-again-btn[hidden] {
@@ -465,22 +526,22 @@ main {
     align-items: center;
     gap: 6px;
     padding: 10px 28px;
-    border: 1px solid var(--amber-glow);
+    border: 1px solid var(--pitch-green);
     border-radius: 8px;
-    background: var(--amber-dim);
-    color: var(--amber-glow);
+    background: var(--pitch-dim);
+    color: var(--pitch-green);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .modal__share-btn:hover {
-    background: var(--amber-glow);
+    background: var(--pitch-green);
     color: var(--bg-dark);
 }
 
 .modal__share-btn:focus-visible {
-    outline: 2px solid var(--amber-glow);
+    outline: 2px solid var(--pitch-green);
     outline-offset: 2px;
 }
 
@@ -500,7 +561,7 @@ main {
     font-size: 1.6rem;
     letter-spacing: 1px;
     text-align: center;
-    color: var(--amber-glow);
+    color: var(--pitch-green);
 }
 
 .profile-tabs {
@@ -525,18 +586,18 @@ main {
 }
 
 .profile-tab:hover {
-    border-color: var(--amber-glow);
+    border-color: var(--pitch-green);
     color: var(--text-main);
 }
 
 .profile-tab.active {
-    background: var(--amber-dim);
-    border-color: var(--amber-glow);
-    color: var(--amber-glow);
+    background: var(--pitch-dim);
+    border-color: var(--pitch-green);
+    color: var(--pitch-green);
 }
 
 .profile-tab:focus-visible {
-    outline: 2px solid var(--amber-glow);
+    outline: 2px solid var(--pitch-green);
     outline-offset: 2px;
 }
 
@@ -557,7 +618,7 @@ main {
     border-radius: 12px;
     padding: 18px 16px;
     text-align: center;
-    box-shadow: 0 0 20px var(--amber-glow-soft);
+    box-shadow: 0 0 20px var(--pitch-glow-soft);
 }
 
 .profile-stat-value {
@@ -584,7 +645,7 @@ main {
     font-size: 0.8rem;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--amber-glow);
+    color: var(--pitch-green);
 }
 
 .profile-stat-full {
@@ -600,7 +661,7 @@ main {
 }
 
 .profile-stat-row + .profile-stat-row {
-    border-top: 1px solid var(--amber-glow-faint);
+    border-top: 1px solid var(--pitch-glow-faint);
 }
 
 .profile-stat-row .profile-stat-label {
@@ -613,7 +674,7 @@ main {
 
 .profile-stat-row .profile-stat-value {
     font-size: 1.1rem;
-    color: var(--amber-glow);
+    color: var(--pitch-green);
 }
 
 /* Guess distribution bar chart */
@@ -653,12 +714,12 @@ main {
     padding: 0 8px;
     box-sizing: border-box;
     border-radius: 6px;
-    background: var(--amber-glow-faint);
+    background: var(--pitch-glow-faint);
     transition: width 0.3s ease;
 }
 
 .profile-dist-bar.has-value {
-    background: var(--amber-glow);
+    background: var(--pitch-green);
 }
 
 .profile-dist-count {
@@ -687,16 +748,16 @@ main {
 .profile-back a {
     display: inline-block;
     padding: 10px 28px;
-    border: 1px solid var(--amber-glow);
+    border: 1px solid var(--pitch-green);
     border-radius: 8px;
-    color: var(--amber-glow);
+    color: var(--pitch-green);
     font-weight: 600;
     text-decoration: none;
     transition: all 0.2s ease;
 }
 
 .profile-back a:hover {
-    background: var(--amber-glow);
+    background: var(--pitch-green);
     color: var(--bg-dark);
 }
 
@@ -732,20 +793,20 @@ main {
     border-right: none;
     border-radius: 12px 0 0 12px;
     background: var(--glass-bg);
-    color: var(--amber-glow);
+    color: var(--pitch-green);
     cursor: pointer;
     box-shadow: -4px 0 18px rgba(0, 0, 0, 0.4);
     transition: all 0.2s ease;
 }
 
 .hint-panel-pull:hover {
-    background: var(--amber-dim);
-    border-color: var(--amber-glow);
+    background: var(--pitch-dim);
+    border-color: var(--pitch-green);
     padding-right: 12px;
 }
 
 .hint-panel-pull:focus-visible {
-    outline: 2px solid var(--amber-glow);
+    outline: 2px solid var(--pitch-green);
     outline-offset: 2px;
 }
 
@@ -767,23 +828,29 @@ main {
     writing-mode: vertical-rl;
 }
 
-/* Drawer: fixed to the right edge, slid off-screen until `.active`. */
+/* Drawer: a floating panel on the right edge, vertically centered and sized to
+   its content (capped at 80vh) rather than stretching the full height. Being
+   centered also drops the close button down near the pull tab's vertical center,
+   so opening then closing barely moves the cursor. Slid off-screen until
+   `.active`. */
 .hint-panel {
     position: fixed;
-    top: 0;
+    top: 50%;
     right: 0;
     z-index: 95;
     width: 300px;
     max-width: 85vw;
-    height: 100%;
+    max-height: 80vh;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     background: var(--glass-bg);
-    border-left: 1px solid var(--glass-border);
+    border: 1px solid var(--glass-border);
+    border-right: none;
+    border-radius: 12px 0 0 12px;
     box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(6px);
-    transform: translateX(100%);
+    transform: translate(100%, -50%);
     visibility: hidden;
     transition:
         transform 0.28s ease,
@@ -791,7 +858,7 @@ main {
 }
 
 .hint-panel.active {
-    transform: translateX(0);
+    transform: translate(0, -50%);
     visibility: visible;
 }
 
@@ -800,7 +867,7 @@ main {
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    border-bottom: 1px solid var(--amber-glow-faint);
+    border-bottom: 1px solid var(--pitch-glow-faint);
     flex-shrink: 0;
 }
 
@@ -809,7 +876,7 @@ main {
     font-weight: 600;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--amber-glow);
+    color: var(--pitch-green);
 }
 
 .hint-panel__close {
@@ -822,7 +889,7 @@ main {
     border: 1px solid var(--glass-border);
     border-radius: 8px;
     background: var(--node-bg);
-    color: var(--amber-glow);
+    color: var(--pitch-green);
     font-size: 1.3rem;
     line-height: 1;
     cursor: pointer;
@@ -830,12 +897,12 @@ main {
 }
 
 .hint-panel__close:hover {
-    background: var(--amber-dim);
-    border-color: var(--amber-glow);
+    background: var(--pitch-dim);
+    border-color: var(--pitch-green);
 }
 
 .hint-panel__close:focus-visible {
-    outline: 2px solid var(--amber-glow);
+    outline: 2px solid var(--pitch-green);
     outline-offset: 2px;
 }
 
@@ -849,7 +916,7 @@ main {
 .hint-panel__section + .hint-panel__section {
     margin-top: 20px;
     padding-top: 16px;
-    border-top: 1px solid var(--amber-glow-faint);
+    border-top: 1px solid var(--pitch-glow-faint);
 }
 
 .hint-panel__title {
@@ -857,7 +924,7 @@ main {
     font-size: 0.75rem;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--amber-glow);
+    color: var(--pitch-green);
 }
 
 .hint-panel__clubs,
@@ -868,6 +935,29 @@ main {
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+/* "Career path" timeline: a dashed chalk rail (like a pitch marking) runs down
+   the left, with a node dot per club card. Reads top-down newest → oldest. */
+.hint-panel__clubs {
+    position: relative;
+    padding-left: 20px;
+}
+
+.hint-panel__clubs::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(232, 232, 232, 0.35) 0,
+        rgba(232, 232, 232, 0.35) 6px,
+        transparent 6px,
+        transparent 12px
+    );
 }
 
 .hint-panel__empty {
@@ -883,19 +973,40 @@ main {
 /* Club card (revealed hint) */
 
 .hint-card {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 10px 12px;
-    border: 1px solid var(--amber-outline);
+    border: 1px solid var(--pitch-outline);
     border-radius: 8px;
-    background: var(--amber-glow-faint);
+    background: var(--pitch-glow-faint);
+}
+
+/* Timeline node dot, centered on the chalk rail in the list's left gutter. */
+.hint-card::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--pitch-outline);
+    border: 2px solid var(--bg-dark);
 }
 
 .hint-card--latest {
-    border-color: var(--amber-glow);
-    background: var(--amber-dim);
-    box-shadow: 0 0 12px var(--amber-glow-soft);
+    border-color: var(--pitch-green);
+    background: var(--pitch-dim);
+    box-shadow: 0 0 12px var(--pitch-glow-soft);
+}
+
+/* The freshest club lights up its node like a live position on the pitch. */
+.hint-card--latest::before {
+    background: var(--pitch-green);
+    box-shadow: 0 0 6px var(--pitch-green);
 }
 
 .hint-card__crest {
@@ -922,7 +1033,7 @@ main {
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.5px;
-    color: var(--amber-glow);
+    color: var(--pitch-green);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
     pointer-events: none;
 }
@@ -937,14 +1048,14 @@ main {
 }
 
 .hint-card--latest .hint-card__name {
-    color: var(--amber-glow);
+    color: var(--pitch-green);
     font-weight: 600;
 }
 
 .hint-card__badge {
     padding: 2px 6px;
     border-radius: 999px;
-    background: var(--amber-glow);
+    background: var(--pitch-green);
     color: var(--bg-dark);
     font-size: 0.6rem;
     font-weight: 700;
@@ -957,10 +1068,21 @@ main {
 .hint-guess {
     display: flex;
     align-items: center;
+    gap: 10px;
     padding: 8px 12px;
     border: 1px solid rgba(255, 74, 74, 0.25);
     border-radius: 8px;
     background: rgba(255, 74, 74, 0.06);
+}
+
+/* Referee's red card: a wrong guess is a booking. */
+.hint-guess__card {
+    flex-shrink: 0;
+    width: 12px;
+    height: 16px;
+    border-radius: 2px;
+    background: var(--danger-red);
+    box-shadow: 0 0 5px rgba(255, 74, 74, 0.5);
 }
 
 .hint-guess__name {

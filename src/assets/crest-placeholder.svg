@@ -8,14 +8,14 @@
   <path
     d="M50 6 L86 18 V50 C86 72 70 88 50 94 C30 88 14 72 14 50 V18 Z"
     fill="url(#crest-grad)"
-    stroke="#e6a861"
+    stroke="#e8e8e8"
     stroke-width="4"
     stroke-linejoin="round"
   />
   <path
     d="M50 14 L79 24 V50 C79 68 66 81 50 86 C34 81 21 68 21 50 V24 Z"
     fill="none"
-    stroke="rgba(230,168,97,0.35)"
+    stroke="rgba(63,185,80,0.45)"
     stroke-width="2"
     stroke-linejoin="round"
   />
