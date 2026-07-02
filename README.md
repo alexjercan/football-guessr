@@ -47,7 +47,8 @@ Profile stats page.
 
 - **TypeScript** — game logic and page scripts
 - **Webpack 5** — bundling, multi-page HTML generation, and dev server
-- **Tailwind CSS v4** (via PostCSS) — styling
+- **Tailwind CSS v4** (via PostCSS) — styling, in a dark **pitch-green** theme
+  (grass turf, chalk pitch-lines, kit-number and career-path motifs)
 - **Jest** (ts-jest) — unit tests for the framework-agnostic game logic
 - **ESLint + Prettier** — linting and formatting
 - **Nix flake** — optional reproducible dev shell

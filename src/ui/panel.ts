@@ -56,6 +56,25 @@ let manuallyClosed = false;
  * "new" and the drawer greets the player with the opening hint.
  */
 let lastRevealedCount = -1;
+/** Previous open state, so focus is moved only on an open/closed transition. */
+let prevOpen = false;
+
+/**
+ * Live media query for the mobile breakpoint, where the drawer covers the game
+ * card. Cached once — `matchMedia` returns a live `MediaQueryList`, so `.matches`
+ * stays current — and guarded so non-browser/test contexts fall back to desktop.
+ * Keep the 640px value in sync with the `@media (max-width: 640px)` block in
+ * `src/style.css`.
+ */
+const narrowViewport =
+    typeof window !== "undefined" && typeof window.matchMedia === "function"
+        ? window.matchMedia("(max-width: 640px)")
+        : null;
+
+/** True on narrow (mobile) viewports. */
+function isNarrowViewport(): boolean {
+    return narrowViewport?.matches ?? false;
+}
 
 /** Look up the panel markup once; returns null if it isn't present. */
 function getElements(): PanelElements | null {
@@ -96,6 +115,19 @@ function applyOpenState(els: PanelElements): void {
     // The pull tab is only offered when the drawer is closed.
     els.pull.hidden = open;
     els.pull.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) {
+        els.pull.removeAttribute("data-new");
+    }
+    // Focus management for the full-width mobile overlay (modal-like): move
+    // focus to the close button on open and back to the pull tab on close.
+    // Only on the open<->closed transition and only on mobile, so desktop
+    // re-renders (which call this every guess) never steal focus from the input.
+    if (open !== prevOpen) {
+        if (isNarrowViewport()) {
+            (open ? els.closeBtn : els.pull).focus();
+        }
+        prevOpen = open;
+    }
 }
 
 /** Attach the pull-tab / close-button handlers once. */
@@ -106,6 +138,13 @@ function ensureWired(els: PanelElements): void {
     wired = true;
     els.pull.addEventListener("click", () => openPanel());
     els.closeBtn.addEventListener("click", () => closePanelManually());
+    // Escape dismisses the open drawer (the full-width mobile overlay has no
+    // backdrop to click; treat Escape as a player-initiated close).
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && open) {
+            closePanelManually();
+        }
+    });
 }
 
 /** Is the drawer currently open? */
@@ -225,15 +264,24 @@ export function createClubCard(name: string, latest = false): HTMLElement {
     return card;
 }
 
-/** Build a compact card for one past (wrong) guess: just the name for now. */
+/**
+ * Build a compact card for one past (wrong) guess. A small "red card" chip
+ * (referee booking) leads the name — a wrong guess is a booking against you.
+ */
 export function createGuessCard(name: string): HTMLElement {
     const card = document.createElement("li");
     card.className = "hint-guess";
+
+    // Decorative red card; the adjacent name carries the meaning for a11y.
+    const redCard = document.createElement("span");
+    redCard.className = "hint-guess__card";
+    redCard.setAttribute("aria-hidden", "true");
 
     const label = document.createElement("span");
     label.className = "hint-guess__name";
     label.textContent = name;
 
+    card.appendChild(redCard);
     card.appendChild(label);
     return card;
 }
@@ -280,13 +328,22 @@ export function renderPanel(view: GameView): void {
     // Toggle the "nothing yet" placeholder.
     els.guessesEmpty.hidden = wrongGuesses.length > 0;
 
-    // Auto-open on a fresh hint (more clubs revealed than last time), respecting
-    // a manual close. `openPanel()` would clear `manuallyClosed`, so set the
-    // open state directly here instead.
+    // Auto-open on a fresh hint (more clubs revealed than last time). On mobile
+    // the drawer covers the game card, so never auto-open there — instead force
+    // it closed and flag the pull tab as having unseen hints (the closed-state
+    // signal that replaces auto-open). Forcing closed also corrects a
+    // desktop->mobile crossing at the next render, since this block otherwise
+    // only ever sets `open = true`. On desktop, auto-open respects a manual
+    // close. `openPanel()` would clear `manuallyClosed`, so set state directly.
     const isNewHint = clubs.length > lastRevealedCount;
     lastRevealedCount = clubs.length;
-    if (isNewHint && !manuallyClosed) {
-        open = true;
+    if (isNewHint) {
+        if (isNarrowViewport()) {
+            open = false;
+            els.pull.setAttribute("data-new", "");
+        } else if (!manuallyClosed) {
+            open = true;
+        }
     }
     applyOpenState(els);
 }
