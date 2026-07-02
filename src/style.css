@@ -19,9 +19,8 @@
     --danger-red: #ff4a4a;
     --node-bg: #131a13;
     /* Type scale — one place to tune hierarchy, shared across surfaces.
-       --fs-club/--fs-heading are the confident anchors; --fs-label stays quiet. */
+       --fs-heading is the confident anchor; --fs-label stays quiet. */
     --fs-heading: 1.6rem;
-    --fs-club: 1.2rem;
     --fs-input: 1.05rem;
     --fs-label: 0.72rem;
 }
@@ -197,52 +196,6 @@ main {
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--pitch-green);
-}
-
-.game__clubs {
-    list-style: none;
-    margin: 0 0 16px;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    /* Number the revealed clubs like a squad sheet (see li::before). */
-    counter-reset: kit;
-}
-
-.game__clubs li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    border: 1px solid var(--pitch-outline);
-    border-radius: 8px;
-    background: var(--pitch-glow-faint);
-    /* Revealed clubs are the primary content — larger, confident type. The kit
-       badge (::before) sets its own font-size, so it is unaffected. */
-    font-size: var(--fs-club);
-    font-weight: 600;
-    color: var(--text-main);
-}
-
-/* Kit number: each revealed club wears its reveal order as a shirt-number
-   patch, framing the hint list as the player's squad-sheet / career order. */
-.game__clubs li::before {
-    counter-increment: kit;
-    content: counter(kit);
-    flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border: 1px solid var(--chalk);
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.25);
-    color: var(--chalk);
-    font-size: 0.85rem;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
 }
 
 .game__form {
