@@ -144,3 +144,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Compound Engineering machine-local config
+.compound-engineering/*.local.yaml
