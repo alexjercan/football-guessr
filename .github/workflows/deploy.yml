@@ -1,0 +1,54 @@
+name: Deploy to GitHub Pages
+
+# Builds the static site and deploys it to GitHub Pages on push to master.
+# The build job re-runs the quality gate first so a red master never ships.
+#
+# NOTE: this is a PROJECT Pages site served from the /football-guessr/ subpath,
+# so the build must set PUBLIC_PATH accordingly — webpack.config.js threads it
+# into output.publicPath and every page's basePath. Without it, assets and
+# inter-page links break on the deployed site.
+#
+# One-time manual setup (cannot be scripted from a workflow):
+#   Settings -> Pages -> Source = "GitHub Actions".
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deploy; don't cancel an in-progress one mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run ci
+      - name: Build for GitHub Pages
+        run: PUBLIC_PATH=/football-guessr/ npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -111,6 +111,33 @@ npm run format      # Prettier (writes changes)
 npm run ci          # format check + lint + tests with coverage
 ```
 
+## CI / Deployment
+
+Two GitHub Actions workflows drive continuous integration and deployment:
+
+- **CI** (`.github/workflows/ci.yml`) — runs `npm run ci` (format check + lint +
+  tests with coverage) on every pull request and on pushes to `master`.
+- **Deploy** (`.github/workflows/deploy.yml`) — on push to `master` (or a manual
+  run), rebuilds the site and publishes it to **GitHub Pages** at
+  <https://alexjercan.github.io/football-guessr/>.
+
+Because this is a project Pages site served from the `/football-guessr/`
+subpath, the deploy build sets `PUBLIC_PATH=/football-guessr/` so asset URLs and
+inter-page links resolve. To reproduce a deploy build locally:
+
+```bash
+PUBLIC_PATH=/football-guessr/ npm run build
+```
+
+### One-time manual setup
+
+These cannot be configured from a workflow — do them once in the GitHub UI:
+
+1. **Settings → Pages → Source** = **GitHub Actions** (required before the first
+   deploy can succeed).
+2. **Settings → Branches** — protect `master` and require the **`ci`** status
+   check to pass before merging.
+
 ## Project structure
 
 ```
