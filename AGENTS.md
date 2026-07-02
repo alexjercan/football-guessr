@@ -86,6 +86,7 @@ src/
   style.css        All theming — CSS custom properties live at :root
 test/              Jest unit tests for the pure logic layer
 tasks/             tatr tasks — the source of truth (see Task Management)
+docs/solutions/    documented solutions to past problems (bugs, best practices, workflow patterns), by category with YAML frontmatter (module, tags, problem_type)
 dist/              Build output (generated; never hand-edit)
 ```
 
