@@ -1,8 +1,22 @@
 # V3 — Club Crest & Player Art Assets + Richer Player Data
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 55
 - TAGS: assets,data,ux
+
+## Resolution — split into two tasks (2026-07-02)
+
+Closed without direct implementation. Split into two separately-tracked tasks so
+the data work and the content/licensing+art work can proceed independently:
+
+- **V3a — Richer Player Data & Club-as-Entity Data Shape**
+  (`tasks/20260702-124105`) — dataset shape change, club ids, expanded player
+  pool, loader/types updates. Prerequisite for V3b.
+- **V3b — Club Crest & Player Art Assets** (`tasks/20260702-124044`) —
+  licensing/sourcing decision, crest + photo binaries, panel/profile wiring.
+
+See those tasks for the up-to-date checklists; the sections below are the
+original combined write-up kept for reference.
 
 ## Context
 
