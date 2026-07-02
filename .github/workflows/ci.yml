@@ -1,0 +1,28 @@
+name: CI
+
+# Runs the project quality gate (format:check + lint + test:coverage) on every
+# PR and on pushes to master. Keep the `ci` job name stable so it can be selected
+# as a required status check in branch protection.
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run ci
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit
+          path: test-results/junit.xml
+          if-no-files-found: ignore
