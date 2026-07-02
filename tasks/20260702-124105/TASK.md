@@ -1,6 +1,6 @@
 # V3a — Richer Player Data & Club-as-Entity Data Shape
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 56
 - TAGS: data,ux
 
