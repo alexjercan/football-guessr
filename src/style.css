@@ -886,7 +886,9 @@ footer a:focus-visible {
 .hint-panel__clubs::before {
     content: "";
     position: absolute;
-    left: 6px;
+    /* Rail centered at x=8px from the list's left edge; the node dots
+       (.hint-card::before) are positioned to share that center. */
+    left: 7px;
     top: 8px;
     bottom: 8px;
     width: 2px;
@@ -922,15 +924,20 @@ footer a:focus-visible {
     background: var(--pitch-glow-faint);
 }
 
-/* Timeline node dot, centered on the chalk rail in the list's left gutter. */
+/* Timeline node dot, centered on the chalk rail in the list's left gutter.
+   box-sizing:border-box makes the rendered width exactly 10px (border included)
+   so the geometry below is exact: card padding-box left is 21px from the list
+   edge (20px list padding + 1px card border), so left:-18px puts the dot's left
+   at 3px and its center at 8px — the same center as the rail. */
 .hint-card::before {
     content: "";
     position: absolute;
-    left: -16px;
+    box-sizing: border-box;
+    left: -18px;
     top: 50%;
     transform: translateY(-50%);
-    width: 9px;
-    height: 9px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: var(--pitch-outline);
     border: 2px solid var(--bg-dark);
