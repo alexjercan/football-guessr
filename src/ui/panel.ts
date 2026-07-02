@@ -2,35 +2,23 @@ import crestPlaceholder from "../assets/crest-placeholder.svg";
 import { GameView } from "../types";
 
 /**
- * Guess/hint info panel. Gives the revealed clubs more visual weight than a
- * plain list — each is a card with a (placeholder) crest and the club name —
- * and collects the player's past wrong guesses in a scrollable stack.
+ * Guess/hint info panel. Renders the revealed clubs (each a card with a
+ * placeholder crest + name, the newest flagged "Latest") and the past wrong
+ * guesses.
  *
- * This module owns only the DOM. It caches the panel markup once (like
- * `modal.ts`) and mutates it on each {@link renderPanel}. All game logic stays
- * in `game.ts`; the panel is a pure projection of the {@link GameView}.
+ * The panel is **always visible and in-flow** — a right-hand column beside the
+ * game on wide screens, stacked below it on narrow screens (see `.game-layout`
+ * / `.hint-panel` in `src/style.css`). There is no open/close drawer. This
+ * module owns only the DOM: it caches the content containers once and repaints
+ * them on each {@link renderPanel} from the {@link GameView}. All game logic
+ * stays in `game.ts`.
  *
- * Adapted from the reference `panel.ts`: a slide-in **drawer** opened by a small
- * pull tab. The open/close state machine (`openPanel` / `closePanel` /
- * `closePanelManually` / `isPanelOpen`) carries over, including the
- * "manually closed" memory — once the player closes the drawer themselves it
- * stays closed even when a fresh hint would otherwise auto-open it, until they
- * pull it open again. The content is rebuilt for this game (a flat chronological
- * club list, not a species/clade tree).
- *
- * Crest art: we have no real club-crest assets yet, so every card shows a
- * shared generic shield placeholder with the club's initials overlaid. Swapping
- * in real per-club crests later is a data/asset change only (see the V3 assets
- * task) — this rendering code won't need to change.
+ * Crest art: a shared placeholder shield with the club's initials overlaid,
+ * until real per-club crests exist (V3 assets task) — this rendering won't need
+ * to change then.
  */
 
 interface PanelElements {
-    /** The drawer container; `.active` slides it in. */
-    panel: HTMLElement;
-    /** The pull tab that opens the drawer (visible when the drawer is closed). */
-    pull: HTMLElement;
-    /** The close (×) control inside the drawer header. */
-    closeBtn: HTMLElement;
     /** Where revealed-club cards are rendered. */
     clubsList: HTMLElement;
     /** Where past wrong-guess cards are rendered. */
@@ -40,53 +28,13 @@ interface PanelElements {
 }
 
 let cached: PanelElements | null = null;
-let wired = false;
-/** Whether the drawer is currently slid in. */
-let open = false;
-/**
- * Set once the player closes the drawer themselves. While true, a newly
- * revealed club won't auto-open the drawer — it respects that the player wants
- * it out of the way. Cleared the moment they pull it open again.
- */
-let manuallyClosed = false;
-/**
- * How many clubs were revealed on the previous render. A jump upward means a
- * fresh hint just landed, which is what triggers an auto-open (unless the
- * drawer was manually closed). Starts at -1 so the very first paint counts as
- * "new" and the drawer greets the player with the opening hint.
- */
-let lastRevealedCount = -1;
-/** Previous open state, so focus is moved only on an open/closed transition. */
-let prevOpen = false;
 
-/**
- * Live media query for breakpoint B — below it the drawer covers the game card
- * (on-demand full-width overlay); at/above it the panel is a persistent in-flow
- * column and the drawer machinery here is inert. Cached once — `matchMedia`
- * returns a live `MediaQueryList`, so `.matches` stays current — and guarded so
- * non-browser/test contexts fall back to desktop. Keep the 820px value in sync
- * with the `@media (max-width: 820px)` / `@media (min-width: 821px)` blocks in
- * `src/style.css`.
- */
-const narrowViewport =
-    typeof window !== "undefined" && typeof window.matchMedia === "function"
-        ? window.matchMedia("(max-width: 820px)")
-        : null;
-
-/** True below breakpoint B — the drawer/on-demand model applies. */
-function isNarrowViewport(): boolean {
-    return narrowViewport?.matches ?? false;
-}
-
-/** Look up the panel markup once; returns null if it isn't present. */
+/** Look up the panel content containers once; returns null if absent. */
 function getElements(): PanelElements | null {
     if (cached) {
         return cached;
     }
 
-    const panel = document.querySelector<HTMLElement>("#hint-panel");
-    const pull = document.querySelector<HTMLElement>("#hint-panel-pull");
-    const closeBtn = document.querySelector<HTMLElement>("#hint-panel-close");
     const clubsList = document.querySelector<HTMLElement>("#hint-panel-clubs");
     const guessesList = document.querySelector<HTMLElement>(
         "#hint-panel-guesses"
@@ -95,109 +43,12 @@ function getElements(): PanelElements | null {
         "#hint-panel-guesses-empty"
     );
 
-    if (
-        !panel ||
-        !pull ||
-        !closeBtn ||
-        !clubsList ||
-        !guessesList ||
-        !guessesEmpty
-    ) {
+    if (!clubsList || !guessesList || !guessesEmpty) {
         return null;
     }
 
-    cached = { panel, pull, closeBtn, clubsList, guessesList, guessesEmpty };
+    cached = { clubsList, guessesList, guessesEmpty };
     return cached;
-}
-
-/** Reflect the current open/closed state onto the DOM (classes + ARIA). */
-function applyOpenState(els: PanelElements): void {
-    els.panel.classList.toggle("active", open);
-    els.panel.setAttribute("aria-hidden", open ? "false" : "true");
-    // The pull tab is only offered when the drawer is closed.
-    els.pull.hidden = open;
-    els.pull.setAttribute("aria-expanded", open ? "true" : "false");
-    if (open) {
-        els.pull.removeAttribute("data-new");
-    }
-    // Focus management for the full-width mobile overlay (modal-like): move
-    // focus to the close button on open and back to the pull tab on close.
-    // Only on the open<->closed transition and only on mobile, so desktop
-    // re-renders (which call this every guess) never steal focus from the input.
-    if (open !== prevOpen) {
-        if (isNarrowViewport()) {
-            (open ? els.closeBtn : els.pull).focus();
-        }
-        prevOpen = open;
-    }
-}
-
-/** Attach the pull-tab / close-button handlers once. */
-function ensureWired(els: PanelElements): void {
-    if (wired) {
-        return;
-    }
-    wired = true;
-    els.pull.addEventListener("click", () => openPanel());
-    els.closeBtn.addEventListener("click", () => closePanelManually());
-    // Escape dismisses the open drawer (the full-width mobile overlay has no
-    // backdrop to click; treat Escape as a player-initiated close).
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && open) {
-            closePanelManually();
-        }
-    });
-}
-
-/** Is the drawer currently open? */
-export function isPanelOpen(): boolean {
-    return open;
-}
-
-/**
- * Open the drawer (no-op if markup is missing). Opening always clears the
- * "manually closed" memory: an explicit pull is the player opting back in.
- */
-export function openPanel(): void {
-    const els = getElements();
-    if (!els) {
-        return;
-    }
-    open = true;
-    manuallyClosed = false;
-    applyOpenState(els);
-}
-
-/**
- * Close the drawer programmatically (no-op if markup is missing). Does *not*
- * set the "manually closed" memory — use {@link closePanelManually} for a
- * player-initiated close.
- */
-export function closePanel(): void {
-    const els = getElements();
-    if (!els) {
-        return;
-    }
-    open = false;
-    applyOpenState(els);
-}
-
-/**
- * Close the drawer because the player asked to (the × button). Remembers the
- * intent so a subsequent fresh hint won't pop it back open.
- */
-export function closePanelManually(): void {
-    manuallyClosed = true;
-    closePanel();
-}
-
-/** Flip the drawer between open and (manually) closed. */
-export function togglePanel(): void {
-    if (open) {
-        closePanelManually();
-    } else {
-        openPanel();
-    }
 }
 
 /**
@@ -293,17 +144,12 @@ export function createGuessCard(name: string): HTMLElement {
  * (newest first, so the freshest hint is at the top and flagged "Latest") and
  * the list of past wrong guesses. Called on every render; safe to call when the
  * panel markup is absent (e.g. a page without the panel) — it just no-ops.
- *
- * Also drives the auto-open: whenever the revealed-club count grows (a new
- * hint), the drawer slides open — unless the player has manually closed it, in
- * which case it stays out of the way until they pull it open again.
  */
 export function renderPanel(view: GameView): void {
     const els = getElements();
     if (!els) {
         return;
     }
-    ensureWired(els);
 
     // Revealed clubs, most recent first. The last entry in `revealedClubs` is
     // the newest reveal, so it leads and gets the "latest" treatment.
@@ -329,23 +175,4 @@ export function renderPanel(view: GameView): void {
 
     // Toggle the "nothing yet" placeholder.
     els.guessesEmpty.hidden = wrongGuesses.length > 0;
-
-    // Auto-open on a fresh hint (more clubs revealed than last time). On mobile
-    // the drawer covers the game card, so never auto-open there — instead force
-    // it closed and flag the pull tab as having unseen hints (the closed-state
-    // signal that replaces auto-open). Forcing closed also corrects a
-    // desktop->mobile crossing at the next render, since this block otherwise
-    // only ever sets `open = true`. On desktop, auto-open respects a manual
-    // close. `openPanel()` would clear `manuallyClosed`, so set state directly.
-    const isNewHint = clubs.length > lastRevealedCount;
-    lastRevealedCount = clubs.length;
-    if (isNewHint) {
-        if (isNarrowViewport()) {
-            open = false;
-            els.pull.setAttribute("data-new", "");
-        } else if (!manuallyClosed) {
-            open = true;
-        }
-    }
-    applyOpenState(els);
 }

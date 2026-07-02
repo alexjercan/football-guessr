@@ -180,6 +180,10 @@ main {
 .game {
     width: 100%;
     max-width: 480px;
+    /* border-box so width:100% includes padding/border — otherwise the card
+       overflows the flex column on narrow screens (cross-axis width doesn't
+       shrink the way a row flex item would). */
+    box-sizing: border-box;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
@@ -799,112 +803,29 @@ footer a:focus-visible {
 
 /* -- Game layout + hint panel (slide-in drawer) --------------------------- */
 
+/* The game card and the always-visible hint panel stack in one column by
+   default (mobile: game on top, hints below); at breakpoint B (>=821px) they
+   sit side by side as one connected unit (see the min-width block below). */
 .game-layout {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
     width: 100%;
     max-width: 480px;
 }
 
-/* Pull tab: anchored to the right edge of the viewport, vertically centered.
-   Only shown while the drawer is closed (JS toggles `hidden`). */
-.hint-panel-pull {
-    position: fixed;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    z-index: 90;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    padding: 14px 8px;
-    border: 1px solid var(--glass-border);
-    border-right: none;
-    border-radius: 12px 0 0 12px;
-    background: var(--glass-bg);
-    color: var(--pitch-green);
-    cursor: pointer;
-    box-shadow: -4px 0 18px rgba(0, 0, 0, 0.4);
-    transition: all 0.2s ease;
-}
-
-.hint-panel-pull:hover {
-    background: var(--pitch-dim);
-    border-color: var(--pitch-green);
-    padding-right: 12px;
-}
-
-.hint-panel-pull:focus-visible {
-    outline: 2px solid var(--pitch-green);
-    outline-offset: 2px;
-}
-
-.hint-panel-pull[hidden] {
-    display: none;
-}
-
-/* Unseen-hint indicator: set by panel.ts (data-new) when a hint is revealed
-   while the drawer is closed on mobile — the closed-state cue that replaces
-   auto-open. Cleared on open. Gold reads clearly against the green tab. */
-.hint-panel-pull[data-new]::after {
-    content: "";
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--victory-gold);
-    box-shadow: 0 0 6px var(--victory-gold);
-}
-
-.hint-panel-pull__icon {
-    font-size: 1.2rem;
-    line-height: 1;
-}
-
-.hint-panel-pull__label {
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    /* Stack the label vertically to keep the tab slim. */
-    writing-mode: vertical-rl;
-}
-
-/* Drawer: a floating panel on the right edge, vertically centered and sized to
-   its content (capped at 80vh) rather than stretching the full height. Being
-   centered also drops the close button down near the pull tab's vertical center,
-   so opening then closing barely moves the cursor. Slid off-screen until
-   `.active`. */
+/* Hint panel: an always-visible, in-flow card (no drawer, no open/close).
+   Standalone card here (mobile, stacked below the game); joined to the game
+   card as a right column at >=821px. */
 .hint-panel {
-    position: fixed;
-    top: 50%;
-    right: 0;
-    z-index: 95;
-    width: 300px;
-    max-width: 85vw;
-    max-height: 80vh;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-right: none;
-    border-radius: 12px 0 0 12px;
-    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(6px);
-    transform: translate(100%, -50%);
-    visibility: hidden;
-    transition:
-        transform 0.28s ease,
-        visibility 0.28s ease;
-}
-
-.hint-panel.active {
-    transform: translate(0, -50%);
-    visibility: visible;
+    border-radius: 12px;
+    box-shadow: 0 0 24px var(--pitch-glow-soft);
 }
 
 .hint-panel__header {
@@ -924,34 +845,7 @@ footer a:focus-visible {
     color: var(--pitch-green);
 }
 
-.hint-panel__close {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    padding: 0;
-    border: 1px solid var(--glass-border);
-    border-radius: 8px;
-    background: var(--node-bg);
-    color: var(--pitch-green);
-    font-size: 1.3rem;
-    line-height: 1;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.hint-panel__close:hover {
-    background: var(--pitch-dim);
-    border-color: var(--pitch-green);
-}
-
-.hint-panel__close:focus-visible {
-    outline: 2px solid var(--pitch-green);
-    outline-offset: 2px;
-}
-
-/* Scrollable content region beneath the fixed header. */
+/* Content region beneath the header. */
 .hint-panel__body {
     flex: 1;
     overflow-y: auto;
@@ -1135,34 +1029,14 @@ footer a:focus-visible {
     color: var(--text-main);
 }
 
-/* Below breakpoint B (820px): the centered drawer becomes a full-width overlay
-   the player opens deliberately (panel.ts suppresses auto-open here). Keep this
-   value in sync with isNarrowViewport() in src/ui/panel.ts. */
-@media (max-width: 820px) {
-    .hint-panel {
-        width: 100%;
-        max-width: 100%;
-        max-height: 88vh;
-        border-radius: 0;
-    }
-
-    /* The pull tab and close button are the only ways in/out on mobile — give
-       them >=44x44px hit areas (WCAG 2.5.5). */
-    .hint-panel-pull,
-    .hint-panel__close {
-        min-width: 44px;
-        min-height: 44px;
-    }
-}
-
-/* At/above breakpoint B (821px+): the two-column "matchday" layout. The game
-   card and the hint panel become one connected bordered unit; the drawer
-   machinery is fully neutralized so the panel is an always-visible in-flow
-   column. Keep B in sync with isNarrowViewport() in src/ui/panel.ts. */
+/* At/above breakpoint B (821px+): the two-column "matchday" layout. The stacked
+   game card and hint panel sit side by side and join into one connected bordered
+   unit (game left-rounded, hints right-rounded, shared seam). */
 @media (min-width: 821px) {
     .game-layout {
+        flex-direction: row;
+        gap: 0;
         max-width: 860px;
-        align-items: stretch;
     }
 
     .game {
@@ -1172,33 +1046,10 @@ footer a:focus-visible {
         border-right: none;
     }
 
-    /* #hint-panel: fixed drawer -> in-flow right column. Reset EVERY drawer
-       property (position/transform/visibility + the .active transform + chrome)
-       or the drawer leaks into the column. */
     .hint-panel {
-        position: static;
-        transform: none;
-        visibility: visible;
-        width: auto;
-        max-width: none;
-        max-height: none;
         flex: 1;
-        border: 1px solid var(--glass-border);
         border-left: none;
         border-radius: 0 12px 12px 0;
         box-shadow: none;
-        backdrop-filter: none;
-    }
-
-    /* .active lives outside the media query at higher specificity — neutralize
-       its transform so a desktop new-hint can't shift the in-flow column. */
-    .hint-panel.active {
-        transform: none;
-    }
-
-    /* No drawer affordances in the persistent column. */
-    .hint-panel-pull,
-    .hint-panel__close {
-        display: none;
     }
 }

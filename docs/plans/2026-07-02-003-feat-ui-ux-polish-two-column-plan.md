@@ -9,10 +9,22 @@ created: 2026-07-02
 
 # UI/UX Polish: Two-Column Game Screen + Consistency Pass - Plan
 
-> **Product Contract preservation:** unchanged from the `ce-brainstorm` output
-> (R1–R6, actors, scope, assumptions, open questions below are verbatim). This
-> enrichment adds only the Planning Contract (KTDs, Implementation Units,
-> Verification Contract, Definition of Done).
+> **Product Contract preservation:** enrichment added the Planning Contract
+> (KTDs, Implementation Units, Verification Contract, Definition of Done).
+> Product Contract changed: **R2** — see the superseded-decision note below.
+>
+> **⚠ Superseded mobile decision (post-implementation, user redirect):** the
+> mobile hint panel is **no longer an on-demand full-width drawer**. Per user
+> direction it is now a **static, always-visible panel stacked below the game
+> card** on narrow screens (and the side column on wide screens, unchanged). As
+> built: one `#hint-panel` element that is *always* in-flow — a right column at
+> ≥821px, stacked below the game card at <821px — with **no drawer, pull tab,
+> open/close state, auto-open, or breakpoint-gated JS**. The drawer machinery in
+> `panel.ts` (open/close/toggle/isPanelOpen, `isNarrowViewport`, auto-open,
+> `data-new`, focus/Escape) and its markup (pull tab, close button) were removed;
+> `panel.ts` now only renders content. Where R2, A-2, KTD1, and U1/U2 below
+> describe the on-demand drawer / breakpoint-gated behavior, that is **superseded
+> by this note** — treat "always in-flow, stacked below on mobile" as canonical.
 
 ## Goal Capsule
 
@@ -62,9 +74,10 @@ persistent, roomy, connected space.
   one connected bordered unit: play column (mode, club hint(s), input+button,
   guesses-left/status) beside a hints column (career path, wrong guesses), both
   visible. No detached/floating drawer on wide screens.
-- **R2 — Responsive collapse (narrow).** Below the breakpoint: single-column play
-  + on-demand full-width hint drawer (pull tab, unseen-hint indicator). Gameplay
-  visible on load; hints one tap away.
+- **R2 — Responsive collapse (narrow).** Below the breakpoint: single column with
+  the hint panel **stacked statically below the game card, always visible** (no
+  drawer, no pull tab). Superseded the original on-demand-drawer wording per the
+  note above.
 - **R3 — Type scale & hierarchy.** Club name and primary elements in confident
   large type; section labels quiet secondary. No screen reads as uniformly small.
 - **R4 — Mobile header fix.** Header title never clipped by / overlapping the
