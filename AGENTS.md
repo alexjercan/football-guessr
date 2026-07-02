@@ -64,6 +64,17 @@ A Nix flake provides an optional reproducible dev shell (`nix develop`).
 - **Stats are derived, not logged.** There is no results log; `gameStats.ts`
   replays each saved game's guesses against its player to compute the profile
   page. Keep it consistent with `game.ts` if you change the reducer.
+- **Clubs are entities; one hand-authored data file.** `src/data/data.json` has
+  two maps keyed by stable slug id: `players` (`id → { name, clubs: [clubIds] }`)
+  and `clubs` (`id → { name, country?, crest? }`). A player references clubs by
+  id; the loader (`dataLoader.ts`) looks each id up in `clubs` to get the display
+  name, so `PlayerEntry.clubs` stays `string[]` and the reducer/matching/stats
+  are unaffected. A club id is the slugified display name (a test enforces this,
+  plus referential integrity — every referenced club id must exist). **Saved-game
+  safety:** player ids are storage keys — keep them (and each player's club
+  order) stable, or you orphan saved games (a test locks the original four).
+  Player `photo`/`description` and club `crest` are optional, unset until the
+  art-assets work (V3b); clubs still render as initials.
 
 ## Directory Layout
 
@@ -71,7 +82,7 @@ A Nix flake provides an optional reproducible dev shell (`nix develop`).
 src/
   game.ts          Core game reducer — framework-agnostic and pure (the heart of the logic)
   matching.ts      Fuzzy/accent-insensitive guess resolution and name matching
-  dataLoader.ts    Loads and maps src/data/players.json -> typed entries
+  dataLoader.ts    Loads data.json, resolves club ids -> display names
   gameStats.ts     Stats derivation (replays saved games)
   gameStorage.ts   Save/load a single game record
   storage.ts       localStorage provider — injectable so logic stays testable
@@ -79,7 +90,7 @@ src/
   helpers.ts       Shared pure utilities
   types.ts         Shared types (GameView, PlayerEntry, ...)
   ui/              DOM-only modules, coverage-excluded: mountGame, modal, panel, autocomplete
-  data/players.json  The puzzle dataset
+  data/data.json     The puzzle dataset: `players` + `clubs` maps keyed by slug id
   assets/          SVGs (crest placeholder, icons, share/profile glyphs)
   *.html           Page templates + _header/_footer partials (index reused for Daily+Practice)
   index.ts / practice.ts / profile.ts / faq.ts  Per-page entry points
@@ -124,7 +135,7 @@ dist/              Build output (generated; never hand-edit)
   and `fix:` both seem to fit); `docs:` for docs-only files; plus
   `refactor:` / `chore:` / `test:` / `style:` / `perf:` when they describe the
   change more precisely. Product content that happens to be Markdown/JSON/CSS
-  (`players.json`, `style.css`, `*.html`) is **not** `docs:`.
+  (`data.json`, `style.css`, `*.html`) is **not** `docs:`.
 - Heuristic: if a regression test you could write today would have failed
   *before* the change, it is a `fix:`.
 - **Never add `!` or a `BREAKING CHANGE:` footer without explicit confirmation.**
