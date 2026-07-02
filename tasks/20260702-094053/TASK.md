@@ -1,8 +1,38 @@
 # Create AGENTS.md
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 100
 - TAGS: claude,agents
+
+## Implementation summary
+
+Created `AGENTS.md` at the repo root as the canonical instruction file, plus a
+one-line `CLAUDE.md` shim that `@AGENTS.md`-includes it (Claude Code auto-loads
+`CLAUDE.md`, so the shim ensures the instructions actually load).
+
+Rather than copy the compound-engineering-plugin example verbatim (that repo is a
+Bun/TS converter CLI + marketplace — most of its sections don't apply here), I
+adapted the *conventions* to this project and applied the manifesto's deletion
+test, keeping only sections that change agent behavior for a static client-side
+TS/Webpack browser game:
+
+- **Task Management (source of truth)** — per the task's note: `tatr` tasks under
+  `./tasks/` are the ground truth; `./todos/` is agent scratch/thinking only.
+- **Quick Start** — real npm scripts (`serve`/`build`/`ci`) + Nix flake.
+- **Working Agreement** — `master` main branch, PRs only, commit-when-asked, the
+  localStorage-schema safety note, and the `npm run ci` + serve/screenshot
+  verification gate.
+- **Domain Notes** — non-obvious facts: `index.html` is the shared template for
+  Daily *and* Practice; Daily is date-seeded/resumed, Practice random/not-resumed;
+  stats are derived by replay, not logged.
+- **Directory Layout**, **Coding Conventions** (pure logic vs DOM-only `src/ui`,
+  theming via `:root` custom properties, id contracts), **Testing** (enforced
+  coverage thresholds; `src/ui/**` + entry points excluded by design), and
+  **Commit Conventions** (conventional prefixes by intent).
+
+Left a small `<!-- Fill in -->` block for deployment specifics (unknown).
+Deliberately omitted the plugin-only sections (target providers, converters,
+skill authoring, marketplace, repo-profile cache, platform-variable rules).
 
 This task creates the `AGENTS.md` file. Here we have an example of what the
 file should look like:

@@ -41,6 +41,10 @@ silently left.
   `src/style.css`.
 - The open/close state machine (`openPanel`/`closePanel`/`closePanelManually`/
   `isPanelOpen`) is the contract to preserve — V4.3 notes it should not change.
+- You can check out the
+  <https://raw.githubusercontent.com/alexjercan/metajurassic/refs/heads/master/src/style.css>
+  to see how the mobile drawer was implemented for `metajurassic` (a similar
+  right-side panel that auto-opens on first hint).
 
 ## Also parked from the V4 spike (lower priority, not yet filed)
 
@@ -49,3 +53,4 @@ silently left.
   (e.g. pitch-green ↔ a light "matchday" theme) is possible but not requested.
 - **Deeper layout restructure** — e.g. header → a scoreboard bar. The spike kept
   restyle-in-place; a structural pass could be its own task if wanted.
+
