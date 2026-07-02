@@ -7,6 +7,7 @@
     "type": "commonjs",
     "scripts": {
         "build": "webpack --config webpack.config.js",
+        "gen:data": "tsx scripts/generate-data.ts",
         "serve": "webpack serve --config webpack.config.js",
         "format": "prettier --write \"src/**/*.ts\" \"src/**/*.html\" *.config.js *.js *.mjs package.json tsconfig.json",
         "format:check": "prettier --check \"src/**/*.ts\" \"src/**/*.html\" *.config.js *.js *.mjs package.json tsconfig.json",
@@ -39,6 +40,7 @@
         "ts-jest": "^29.4.11",
         "ts-loader": "^9.6.2",
         "ts-node": "^10.9.2",
+        "tsx": "^4.22.4",
         "typescript-eslint": "^8.62.1",
         "webpack": "^5.108.3",
         "webpack-cli": "^7.1.0",

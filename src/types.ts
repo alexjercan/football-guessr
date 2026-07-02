@@ -1,11 +1,47 @@
 export interface PlayerEntry {
     id: string;
     name: string;
+    /**
+     * Ordered club career, as display-name strings. The reducer reveals these
+     * one at a time, so the game logic only ever needs the display names — the
+     * loader resolves club ids (see {@link ClubMap}) back to these strings.
+     */
     clubs: string[];
+    /** Optional player portrait asset path; unset falls back gracefully (V3b). */
+    photo?: string;
+    /** Optional short player blurb; unset falls back gracefully (V3b). */
+    description?: string;
 }
 
 export interface GameData {
     players: PlayerEntry[];
+}
+
+/**
+ * A club as a referenceable entity. Keyed by a stable slug id in the
+ * {@link ClubMap} (`clubs.json`); crest art (V3b) keys off that same id.
+ * `crest`/`country` are optional and unset today — assets are deferred.
+ */
+export interface RawClub {
+    name: string;
+    country?: string;
+    crest?: string;
+}
+
+/** The `clubs.json` map: stable club id -> club entity. */
+export type ClubMap = Record<string, RawClub>;
+
+/**
+ * Shape of an entry in the committed `players.json`. `clubs` here are club
+ * *ids* (keys into {@link ClubMap}); the loader resolves them to the display
+ * names {@link PlayerEntry} exposes.
+ */
+export interface RawPlayerEntry {
+    id: string;
+    name: string;
+    clubs: string[];
+    photo?: string;
+    description?: string;
 }
 
 /** Lifecycle of a single game. */

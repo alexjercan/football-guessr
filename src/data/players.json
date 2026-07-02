@@ -2,21 +2,329 @@
     {
         "id": "neymar",
         "name": "Neymar Jr",
-        "clubs": ["Santos", "Barcelona", "Paris Saint-Germain", "Al-Hilal"]
+        "clubs": [
+            "santos",
+            "barcelona",
+            "paris-saint-germain",
+            "al-hilal"
+        ]
     },
     {
         "id": "messi",
         "name": "Lionel Messi",
-        "clubs": ["Barcelona", "Paris Saint-Germain", "Inter Miami"]
+        "clubs": [
+            "barcelona",
+            "paris-saint-germain",
+            "inter-miami"
+        ]
     },
     {
         "id": "ronaldo",
         "name": "Cristiano Ronaldo",
-        "clubs": ["Sporting CP", "Manchester United", "Real Madrid", "Juventus", "Manchester United", "Al-Nassr"]
+        "clubs": [
+            "sporting-cp",
+            "manchester-united",
+            "real-madrid",
+            "juventus",
+            "manchester-united",
+            "al-nassr"
+        ]
     },
     {
         "id": "mbappe",
         "name": "Kylian Mbappé",
-        "clubs": ["AS Monaco", "Paris Saint-Germain", "Real Madrid"]
+        "clubs": [
+            "as-monaco",
+            "paris-saint-germain",
+            "real-madrid"
+        ]
+    },
+    {
+        "id": "haaland",
+        "name": "Erling Haaland",
+        "clubs": [
+            "molde",
+            "red-bull-salzburg",
+            "borussia-dortmund",
+            "manchester-city"
+        ]
+    },
+    {
+        "id": "lewandowski",
+        "name": "Robert Lewandowski",
+        "clubs": [
+            "lech-poznan",
+            "borussia-dortmund",
+            "bayern-munich",
+            "barcelona"
+        ]
+    },
+    {
+        "id": "benzema",
+        "name": "Karim Benzema",
+        "clubs": [
+            "lyon",
+            "real-madrid",
+            "al-ittihad"
+        ]
+    },
+    {
+        "id": "modric",
+        "name": "Luka Modrić",
+        "clubs": [
+            "dinamo-zagreb",
+            "tottenham-hotspur",
+            "real-madrid"
+        ]
+    },
+    {
+        "id": "kroos",
+        "name": "Toni Kroos",
+        "clubs": [
+            "bayern-munich",
+            "bayer-leverkusen",
+            "bayern-munich",
+            "real-madrid"
+        ]
+    },
+    {
+        "id": "de-bruyne",
+        "name": "Kevin De Bruyne",
+        "clubs": [
+            "genk",
+            "chelsea",
+            "werder-bremen",
+            "vfl-wolfsburg",
+            "manchester-city",
+            "napoli"
+        ]
+    },
+    {
+        "id": "salah",
+        "name": "Mohamed Salah",
+        "clubs": [
+            "el-mokawloon",
+            "basel",
+            "chelsea",
+            "fiorentina",
+            "roma",
+            "liverpool"
+        ]
+    },
+    {
+        "id": "kane",
+        "name": "Harry Kane",
+        "clubs": [
+            "tottenham-hotspur",
+            "bayern-munich"
+        ]
+    },
+    {
+        "id": "sterling",
+        "name": "Raheem Sterling",
+        "clubs": [
+            "liverpool",
+            "manchester-city",
+            "chelsea",
+            "arsenal"
+        ]
+    },
+    {
+        "id": "suarez",
+        "name": "Luis Suárez",
+        "clubs": [
+            "nacional",
+            "fc-groningen",
+            "ajax",
+            "liverpool",
+            "barcelona",
+            "atletico-madrid",
+            "gremio",
+            "inter-miami"
+        ]
+    },
+    {
+        "id": "cavani",
+        "name": "Edinson Cavani",
+        "clubs": [
+            "danubio",
+            "palermo",
+            "napoli",
+            "paris-saint-germain",
+            "manchester-united",
+            "valencia",
+            "boca-juniors"
+        ]
+    },
+    {
+        "id": "ibrahimovic",
+        "name": "Zlatan Ibrahimović",
+        "clubs": [
+            "malmo-ff",
+            "ajax",
+            "juventus",
+            "inter-milan",
+            "barcelona",
+            "ac-milan",
+            "paris-saint-germain",
+            "manchester-united",
+            "la-galaxy",
+            "ac-milan"
+        ]
+    },
+    {
+        "id": "pogba",
+        "name": "Paul Pogba",
+        "clubs": [
+            "manchester-united",
+            "juventus",
+            "manchester-united",
+            "juventus"
+        ]
+    },
+    {
+        "id": "griezmann",
+        "name": "Antoine Griezmann",
+        "clubs": [
+            "real-sociedad",
+            "atletico-madrid",
+            "barcelona",
+            "atletico-madrid"
+        ]
+    },
+    {
+        "id": "hazard",
+        "name": "Eden Hazard",
+        "clubs": [
+            "lille",
+            "chelsea",
+            "real-madrid"
+        ]
+    },
+    {
+        "id": "bale",
+        "name": "Gareth Bale",
+        "clubs": [
+            "southampton",
+            "tottenham-hotspur",
+            "real-madrid",
+            "tottenham-hotspur",
+            "los-angeles-fc"
+        ]
+    },
+    {
+        "id": "son",
+        "name": "Son Heung-min",
+        "clubs": [
+            "hamburger-sv",
+            "bayer-leverkusen",
+            "tottenham-hotspur",
+            "los-angeles-fc"
+        ]
+    },
+    {
+        "id": "van-dijk",
+        "name": "Virgil van Dijk",
+        "clubs": [
+            "fc-groningen",
+            "celtic",
+            "southampton",
+            "liverpool"
+        ]
+    },
+    {
+        "id": "sergio-ramos",
+        "name": "Sergio Ramos",
+        "clubs": [
+            "sevilla",
+            "real-madrid",
+            "paris-saint-germain",
+            "sevilla"
+        ]
+    },
+    {
+        "id": "aguero",
+        "name": "Sergio Agüero",
+        "clubs": [
+            "independiente",
+            "atletico-madrid",
+            "manchester-city",
+            "barcelona"
+        ]
+    },
+    {
+        "id": "dybala",
+        "name": "Paulo Dybala",
+        "clubs": [
+            "instituto",
+            "palermo",
+            "juventus",
+            "roma"
+        ]
+    },
+    {
+        "id": "vinicius",
+        "name": "Vinícius Júnior",
+        "clubs": [
+            "flamengo",
+            "real-madrid"
+        ]
+    },
+    {
+        "id": "rodrygo",
+        "name": "Rodrygo",
+        "clubs": [
+            "santos",
+            "real-madrid"
+        ]
+    },
+    {
+        "id": "casemiro",
+        "name": "Casemiro",
+        "clubs": [
+            "sao-paulo",
+            "real-madrid",
+            "manchester-united"
+        ]
+    },
+    {
+        "id": "firmino",
+        "name": "Roberto Firmino",
+        "clubs": [
+            "figueirense",
+            "hoffenheim",
+            "liverpool",
+            "al-ahli"
+        ]
+    },
+    {
+        "id": "mane",
+        "name": "Sadio Mané",
+        "clubs": [
+            "metz",
+            "red-bull-salzburg",
+            "southampton",
+            "liverpool",
+            "bayern-munich",
+            "al-nassr"
+        ]
+    },
+    {
+        "id": "courtois",
+        "name": "Thibaut Courtois",
+        "clubs": [
+            "genk",
+            "atletico-madrid",
+            "chelsea",
+            "real-madrid"
+        ]
+    },
+    {
+        "id": "neuer",
+        "name": "Manuel Neuer",
+        "clubs": [
+            "schalke-04",
+            "bayern-munich"
+        ]
     }
 ]
