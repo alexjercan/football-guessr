@@ -1,14 +1,13 @@
 # Create FAQ page that explains how the game works
 
-- STATUS: IN_PROGRESS
+- STATUS: CLOSED
 - PRIORITY: 100
 - TAGS: docs,ux
 
 ## What changed
 
-Implemented via the `/lfg` pipeline; in review as **PR #6**
-(https://github.com/alexjercan/football-guessr/pull/6) — stays `IN_PROGRESS`
-until it merges, then set `CLOSED`.
+Implemented via the `/lfg` pipeline; shipped in **PR #6**
+(https://github.com/alexjercan/football-guessr/pull/6, merged to `master`).
 
 - Populated the previously-empty `/faq` page (`src/faq.html` `<main>`) with
   static, accurate content: the goal, how a round works (one club to start,
