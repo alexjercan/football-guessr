@@ -52,7 +52,7 @@ for new clubs.
 - [x] `npm run ci` green; fix failures.
 - [x] Confirm in the running app that the full pool loads and sample players
       resolve correctly.
-- [x] Update this TASK.md "What changed" + STATUS -> CLOSED when the PR merges.
+- [ ] Update STATUS -> CLOSED when the PR merges (stays IN_PROGRESS until then).
 
 ## What changed
 
