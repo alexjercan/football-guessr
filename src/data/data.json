@@ -295,6 +295,513 @@
                 "schalke-04",
                 "bayern-munich"
             ]
+        },
+        "pele": {
+            "name": "Pelé",
+            "clubs": [
+                "santos",
+                "new-york-cosmos"
+            ]
+        },
+        "maradona": {
+            "name": "Diego Maradona",
+            "clubs": [
+                "argentinos-juniors",
+                "boca-juniors",
+                "barcelona",
+                "napoli",
+                "sevilla",
+                "newell-s-old-boys",
+                "boca-juniors"
+            ]
+        },
+        "ronaldo-nazario": {
+            "name": "Ronaldo",
+            "clubs": [
+                "cruzeiro",
+                "psv-eindhoven",
+                "barcelona",
+                "inter-milan",
+                "real-madrid",
+                "ac-milan",
+                "corinthians"
+            ]
+        },
+        "ronaldinho": {
+            "name": "Ronaldinho",
+            "clubs": [
+                "gremio",
+                "paris-saint-germain",
+                "barcelona",
+                "ac-milan",
+                "flamengo",
+                "atletico-mineiro",
+                "queretaro",
+                "fluminense"
+            ]
+        },
+        "zidane": {
+            "name": "Zinedine Zidane",
+            "clubs": [
+                "cannes",
+                "bordeaux",
+                "juventus",
+                "real-madrid"
+            ]
+        },
+        "henry": {
+            "name": "Thierry Henry",
+            "clubs": [
+                "as-monaco",
+                "juventus",
+                "arsenal",
+                "barcelona",
+                "new-york-red-bulls"
+            ]
+        },
+        "beckham": {
+            "name": "David Beckham",
+            "clubs": [
+                "manchester-united",
+                "real-madrid",
+                "la-galaxy",
+                "ac-milan",
+                "paris-saint-germain"
+            ]
+        },
+        "gerrard": {
+            "name": "Steven Gerrard",
+            "clubs": [
+                "liverpool",
+                "la-galaxy"
+            ]
+        },
+        "lampard": {
+            "name": "Frank Lampard",
+            "clubs": [
+                "west-ham-united",
+                "chelsea",
+                "manchester-city",
+                "new-york-city-fc"
+            ]
+        },
+        "rooney": {
+            "name": "Wayne Rooney",
+            "clubs": [
+                "everton",
+                "manchester-united",
+                "everton",
+                "d-c-united",
+                "derby-county"
+            ]
+        },
+        "xavi": {
+            "name": "Xavi",
+            "clubs": [
+                "barcelona",
+                "al-sadd"
+            ]
+        },
+        "iniesta": {
+            "name": "Andrés Iniesta",
+            "clubs": [
+                "barcelona",
+                "vissel-kobe",
+                "emirates-club"
+            ]
+        },
+        "casillas": {
+            "name": "Iker Casillas",
+            "clubs": [
+                "real-madrid",
+                "porto"
+            ]
+        },
+        "raul": {
+            "name": "Raúl",
+            "clubs": [
+                "real-madrid",
+                "schalke-04",
+                "al-sadd",
+                "new-york-cosmos"
+            ]
+        },
+        "torres": {
+            "name": "Fernando Torres",
+            "clubs": [
+                "atletico-madrid",
+                "liverpool",
+                "chelsea",
+                "ac-milan",
+                "atletico-madrid",
+                "sagan-tosu"
+            ]
+        },
+        "david-villa": {
+            "name": "David Villa",
+            "clubs": [
+                "sporting-gijon",
+                "real-zaragoza",
+                "valencia",
+                "barcelona",
+                "atletico-madrid",
+                "new-york-city-fc",
+                "vissel-kobe"
+            ]
+        },
+        "xabi-alonso": {
+            "name": "Xabi Alonso",
+            "clubs": [
+                "real-sociedad",
+                "liverpool",
+                "real-madrid",
+                "bayern-munich"
+            ]
+        },
+        "pique": {
+            "name": "Gerard Piqué",
+            "clubs": [
+                "manchester-united",
+                "real-zaragoza",
+                "barcelona"
+            ]
+        },
+        "puyol": {
+            "name": "Carles Puyol",
+            "clubs": [
+                "barcelona"
+            ]
+        },
+        "etoo": {
+            "name": "Samuel Eto'o",
+            "clubs": [
+                "real-madrid",
+                "leganes",
+                "espanyol",
+                "mallorca",
+                "barcelona",
+                "inter-milan",
+                "anzhi-makhachkala",
+                "chelsea",
+                "everton",
+                "sampdoria",
+                "antalyaspor",
+                "konyaspor",
+                "qatar-sc"
+            ]
+        },
+        "kaka": {
+            "name": "Kaká",
+            "clubs": [
+                "sao-paulo",
+                "ac-milan",
+                "real-madrid",
+                "ac-milan",
+                "sao-paulo",
+                "orlando-city"
+            ]
+        },
+        "pirlo": {
+            "name": "Andrea Pirlo",
+            "clubs": [
+                "brescia",
+                "inter-milan",
+                "reggina",
+                "brescia",
+                "ac-milan",
+                "juventus",
+                "new-york-city-fc"
+            ]
+        },
+        "totti": {
+            "name": "Francesco Totti",
+            "clubs": [
+                "roma"
+            ]
+        },
+        "maldini": {
+            "name": "Paolo Maldini",
+            "clubs": [
+                "ac-milan"
+            ]
+        },
+        "del-piero": {
+            "name": "Alessandro Del Piero",
+            "clubs": [
+                "padova",
+                "juventus",
+                "sydney-fc",
+                "delhi-dynamos"
+            ]
+        },
+        "buffon": {
+            "name": "Gianluigi Buffon",
+            "clubs": [
+                "parma",
+                "juventus",
+                "paris-saint-germain",
+                "juventus",
+                "parma"
+            ]
+        },
+        "shevchenko": {
+            "name": "Andriy Shevchenko",
+            "clubs": [
+                "dynamo-kyiv",
+                "ac-milan",
+                "chelsea",
+                "ac-milan",
+                "dynamo-kyiv"
+            ]
+        },
+        "batistuta": {
+            "name": "Gabriel Batistuta",
+            "clubs": [
+                "newell-s-old-boys",
+                "river-plate",
+                "boca-juniors",
+                "fiorentina",
+                "roma",
+                "inter-milan",
+                "al-arabi"
+            ]
+        },
+        "drogba": {
+            "name": "Didier Drogba",
+            "clubs": [
+                "le-mans",
+                "guingamp",
+                "marseille",
+                "chelsea",
+                "shanghai-shenhua",
+                "galatasaray",
+                "chelsea",
+                "montreal-impact"
+            ]
+        },
+        "van-nistelrooy": {
+            "name": "Ruud van Nistelrooy",
+            "clubs": [
+                "den-bosch",
+                "heerenveen",
+                "psv-eindhoven",
+                "manchester-united",
+                "real-madrid",
+                "hamburger-sv",
+                "malaga"
+            ]
+        },
+        "bergkamp": {
+            "name": "Dennis Bergkamp",
+            "clubs": [
+                "ajax",
+                "inter-milan",
+                "arsenal"
+            ]
+        },
+        "roberto-carlos": {
+            "name": "Roberto Carlos",
+            "clubs": [
+                "uniao-sao-joao",
+                "palmeiras",
+                "inter-milan",
+                "real-madrid",
+                "fenerbahce",
+                "corinthians",
+                "anzhi-makhachkala",
+                "delhi-dynamos"
+            ]
+        },
+        "owen": {
+            "name": "Michael Owen",
+            "clubs": [
+                "liverpool",
+                "real-madrid",
+                "newcastle-united",
+                "manchester-united",
+                "stoke-city"
+            ]
+        },
+        "ferdinand": {
+            "name": "Rio Ferdinand",
+            "clubs": [
+                "west-ham-united",
+                "leeds-united",
+                "manchester-united",
+                "queens-park-rangers"
+            ]
+        },
+        "tevez": {
+            "name": "Carlos Tevez",
+            "clubs": [
+                "boca-juniors",
+                "corinthians",
+                "west-ham-united",
+                "manchester-united",
+                "manchester-city",
+                "juventus",
+                "boca-juniors",
+                "shanghai-shenhua",
+                "boca-juniors"
+            ]
+        },
+        "robben": {
+            "name": "Arjen Robben",
+            "clubs": [
+                "fc-groningen",
+                "psv-eindhoven",
+                "chelsea",
+                "real-madrid",
+                "bayern-munich",
+                "fc-groningen"
+            ]
+        },
+        "van-persie": {
+            "name": "Robin van Persie",
+            "clubs": [
+                "feyenoord",
+                "arsenal",
+                "manchester-united",
+                "fenerbahce",
+                "feyenoord"
+            ]
+        },
+        "sneijder": {
+            "name": "Wesley Sneijder",
+            "clubs": [
+                "ajax",
+                "real-madrid",
+                "inter-milan",
+                "galatasaray",
+                "nice",
+                "al-gharafa"
+            ]
+        },
+        "forlan": {
+            "name": "Diego Forlán",
+            "clubs": [
+                "independiente",
+                "manchester-united",
+                "villarreal",
+                "atletico-madrid",
+                "inter-milan",
+                "internacional",
+                "cerezo-osaka",
+                "penarol"
+            ]
+        },
+        "james-rodriguez": {
+            "name": "James Rodríguez",
+            "clubs": [
+                "envigado",
+                "banfield",
+                "porto",
+                "as-monaco",
+                "real-madrid",
+                "bayern-munich",
+                "real-madrid",
+                "everton",
+                "al-rayyan",
+                "olympiacos",
+                "sao-paulo",
+                "rayo-vallecano"
+            ]
+        },
+        "bellingham": {
+            "name": "Jude Bellingham",
+            "clubs": [
+                "birmingham-city",
+                "borussia-dortmund",
+                "real-madrid"
+            ]
+        },
+        "saka": {
+            "name": "Bukayo Saka",
+            "clubs": [
+                "arsenal"
+            ]
+        },
+        "foden": {
+            "name": "Phil Foden",
+            "clubs": [
+                "manchester-city"
+            ]
+        },
+        "bruno-fernandes": {
+            "name": "Bruno Fernandes",
+            "clubs": [
+                "novara",
+                "udinese",
+                "sampdoria",
+                "sporting-cp",
+                "manchester-united"
+            ]
+        },
+        "odegaard": {
+            "name": "Martin Ødegaard",
+            "clubs": [
+                "str-msgodset",
+                "real-madrid",
+                "heerenveen",
+                "vitesse",
+                "real-sociedad",
+                "arsenal"
+            ]
+        },
+        "leao": {
+            "name": "Rafael Leão",
+            "clubs": [
+                "sporting-cp",
+                "lille",
+                "ac-milan"
+            ]
+        },
+        "osimhen": {
+            "name": "Victor Osimhen",
+            "clubs": [
+                "vfl-wolfsburg",
+                "charleroi",
+                "lille",
+                "napoli",
+                "galatasaray"
+            ]
+        },
+        "lautaro-martinez": {
+            "name": "Lautaro Martínez",
+            "clubs": [
+                "racing-club",
+                "inter-milan"
+            ]
+        },
+        "julian-alvarez": {
+            "name": "Julián Álvarez",
+            "clubs": [
+                "river-plate",
+                "manchester-city",
+                "atletico-madrid"
+            ]
+        },
+        "pedri": {
+            "name": "Pedri",
+            "clubs": [
+                "las-palmas",
+                "barcelona"
+            ]
+        },
+        "rodri": {
+            "name": "Rodri",
+            "clubs": [
+                "villarreal",
+                "atletico-madrid",
+                "manchester-city"
+            ]
+        },
+        "alexander-arnold": {
+            "name": "Trent Alexander-Arnold",
+            "clubs": [
+                "liverpool",
+                "real-madrid"
+            ]
         }
     },
     "clubs": {
@@ -310,6 +817,14 @@
             "name": "Al-Ahli",
             "country": "SA"
         },
+        "al-arabi": {
+            "name": "Al-Arabi",
+            "country": "QA"
+        },
+        "al-gharafa": {
+            "name": "Al-Gharafa",
+            "country": "QA"
+        },
         "al-hilal": {
             "name": "Al-Hilal",
             "country": "SA"
@@ -322,6 +837,26 @@
             "name": "Al-Nassr",
             "country": "SA"
         },
+        "al-rayyan": {
+            "name": "Al-Rayyan",
+            "country": "QA"
+        },
+        "al-sadd": {
+            "name": "Al Sadd",
+            "country": "QA"
+        },
+        "antalyaspor": {
+            "name": "Antalyaspor",
+            "country": "TR"
+        },
+        "anzhi-makhachkala": {
+            "name": "Anzhi Makhachkala",
+            "country": "RU"
+        },
+        "argentinos-juniors": {
+            "name": "Argentinos Juniors",
+            "country": "AR"
+        },
         "arsenal": {
             "name": "Arsenal",
             "country": "EN"
@@ -333,6 +868,14 @@
         "atletico-madrid": {
             "name": "Atlético Madrid",
             "country": "ES"
+        },
+        "atletico-mineiro": {
+            "name": "Atlético Mineiro",
+            "country": "BR"
+        },
+        "banfield": {
+            "name": "Banfield",
+            "country": "AR"
         },
         "barcelona": {
             "name": "Barcelona",
@@ -350,36 +893,112 @@
             "name": "Bayern Munich",
             "country": "DE"
         },
+        "birmingham-city": {
+            "name": "Birmingham City",
+            "country": "GB"
+        },
         "boca-juniors": {
             "name": "Boca Juniors",
             "country": "AR"
+        },
+        "bordeaux": {
+            "name": "Bordeaux",
+            "country": "FR"
         },
         "borussia-dortmund": {
             "name": "Borussia Dortmund",
             "country": "DE"
         },
+        "brescia": {
+            "name": "Brescia",
+            "country": "IT"
+        },
+        "cannes": {
+            "name": "Cannes",
+            "country": "FR"
+        },
         "celtic": {
             "name": "Celtic",
             "country": "SC"
+        },
+        "cerezo-osaka": {
+            "name": "Cerezo Osaka",
+            "country": "JP"
+        },
+        "charleroi": {
+            "name": "Charleroi",
+            "country": "BE"
         },
         "chelsea": {
             "name": "Chelsea",
             "country": "EN"
         },
+        "corinthians": {
+            "name": "Corinthians",
+            "country": "BR"
+        },
+        "cruzeiro": {
+            "name": "Cruzeiro",
+            "country": "BR"
+        },
+        "d-c-united": {
+            "name": "D.C. United",
+            "country": "US"
+        },
         "danubio": {
             "name": "Danubio",
             "country": "UY"
+        },
+        "delhi-dynamos": {
+            "name": "Delhi Dynamos",
+            "country": "IN"
+        },
+        "den-bosch": {
+            "name": "Den Bosch",
+            "country": "NL"
+        },
+        "derby-county": {
+            "name": "Derby County",
+            "country": "GB"
         },
         "dinamo-zagreb": {
             "name": "Dinamo Zagreb",
             "country": "HR"
         },
+        "dynamo-kyiv": {
+            "name": "Dynamo Kyiv",
+            "country": "UA"
+        },
         "el-mokawloon": {
             "name": "El Mokawloon",
             "country": "EG"
         },
+        "emirates-club": {
+            "name": "Emirates Club",
+            "country": "AE"
+        },
+        "envigado": {
+            "name": "Envigado",
+            "country": "CO"
+        },
+        "espanyol": {
+            "name": "Espanyol",
+            "country": "ES"
+        },
+        "everton": {
+            "name": "Everton",
+            "country": "GB"
+        },
         "fc-groningen": {
             "name": "FC Groningen",
+            "country": "NL"
+        },
+        "fenerbahce": {
+            "name": "Fenerbahçe",
+            "country": "TR"
+        },
+        "feyenoord": {
+            "name": "Feyenoord",
             "country": "NL"
         },
         "figueirense": {
@@ -394,6 +1013,14 @@
             "name": "Flamengo",
             "country": "BR"
         },
+        "fluminense": {
+            "name": "Fluminense",
+            "country": "BR"
+        },
+        "galatasaray": {
+            "name": "Galatasaray",
+            "country": "TR"
+        },
         "genk": {
             "name": "Genk",
             "country": "BE"
@@ -402,9 +1029,17 @@
             "name": "Grêmio",
             "country": "BR"
         },
+        "guingamp": {
+            "name": "Guingamp",
+            "country": "FR"
+        },
         "hamburger-sv": {
             "name": "Hamburger SV",
             "country": "DE"
+        },
+        "heerenveen": {
+            "name": "Heerenveen",
+            "country": "NL"
         },
         "hoffenheim": {
             "name": "Hoffenheim",
@@ -426,17 +1061,41 @@
             "name": "Inter Milan",
             "country": "IT"
         },
+        "internacional": {
+            "name": "Internacional",
+            "country": "BR"
+        },
         "juventus": {
             "name": "Juventus",
             "country": "IT"
+        },
+        "konyaspor": {
+            "name": "Konyaspor",
+            "country": "TR"
         },
         "la-galaxy": {
             "name": "LA Galaxy",
             "country": "US"
         },
+        "las-palmas": {
+            "name": "Las Palmas",
+            "country": "ES"
+        },
+        "le-mans": {
+            "name": "Le Mans",
+            "country": "FR"
+        },
         "lech-poznan": {
             "name": "Lech Poznań",
             "country": "PL"
+        },
+        "leeds-united": {
+            "name": "Leeds United",
+            "country": "GB"
+        },
+        "leganes": {
+            "name": "Leganés",
+            "country": "ES"
         },
         "lille": {
             "name": "Lille",
@@ -454,6 +1113,14 @@
             "name": "Lyon",
             "country": "FR"
         },
+        "malaga": {
+            "name": "Málaga",
+            "country": "ES"
+        },
+        "mallorca": {
+            "name": "Mallorca",
+            "country": "ES"
+        },
         "malmo-ff": {
             "name": "Malmö FF",
             "country": "SE"
@@ -466,6 +1133,10 @@
             "name": "Manchester United",
             "country": "EN"
         },
+        "marseille": {
+            "name": "Marseille",
+            "country": "FR"
+        },
         "metz": {
             "name": "Metz",
             "country": "FR"
@@ -473,6 +1144,10 @@
         "molde": {
             "name": "Molde",
             "country": "NO"
+        },
+        "montreal-impact": {
+            "name": "Montreal Impact",
+            "country": "CA"
         },
         "nacional": {
             "name": "Nacional",
@@ -482,13 +1157,93 @@
             "name": "Napoli",
             "country": "IT"
         },
+        "new-york-city-fc": {
+            "name": "New York City FC",
+            "country": "US"
+        },
+        "new-york-cosmos": {
+            "name": "New York Cosmos",
+            "country": "US"
+        },
+        "new-york-red-bulls": {
+            "name": "New York Red Bulls",
+            "country": "US"
+        },
+        "newcastle-united": {
+            "name": "Newcastle United",
+            "country": "GB"
+        },
+        "newell-s-old-boys": {
+            "name": "Newell's Old Boys",
+            "country": "AR"
+        },
+        "nice": {
+            "name": "Nice",
+            "country": "FR"
+        },
+        "novara": {
+            "name": "Novara",
+            "country": "IT"
+        },
+        "olympiacos": {
+            "name": "Olympiacos",
+            "country": "GR"
+        },
+        "orlando-city": {
+            "name": "Orlando City",
+            "country": "US"
+        },
+        "padova": {
+            "name": "Padova",
+            "country": "IT"
+        },
         "palermo": {
             "name": "Palermo",
             "country": "IT"
         },
+        "palmeiras": {
+            "name": "Palmeiras",
+            "country": "BR"
+        },
         "paris-saint-germain": {
             "name": "Paris Saint-Germain",
             "country": "FR"
+        },
+        "parma": {
+            "name": "Parma",
+            "country": "IT"
+        },
+        "penarol": {
+            "name": "Peñarol",
+            "country": "UY"
+        },
+        "porto": {
+            "name": "Porto",
+            "country": "PT"
+        },
+        "psv-eindhoven": {
+            "name": "PSV Eindhoven",
+            "country": "NL"
+        },
+        "qatar-sc": {
+            "name": "Qatar SC",
+            "country": "QA"
+        },
+        "queens-park-rangers": {
+            "name": "Queens Park Rangers",
+            "country": "GB"
+        },
+        "queretaro": {
+            "name": "Querétaro",
+            "country": "MX"
+        },
+        "racing-club": {
+            "name": "Racing Club",
+            "country": "AR"
+        },
+        "rayo-vallecano": {
+            "name": "Rayo Vallecano",
+            "country": "ES"
         },
         "real-madrid": {
             "name": "Real Madrid",
@@ -498,12 +1253,32 @@
             "name": "Real Sociedad",
             "country": "ES"
         },
+        "real-zaragoza": {
+            "name": "Real Zaragoza",
+            "country": "ES"
+        },
         "red-bull-salzburg": {
             "name": "Red Bull Salzburg",
             "country": "AT"
         },
+        "reggina": {
+            "name": "Reggina",
+            "country": "IT"
+        },
+        "river-plate": {
+            "name": "River Plate",
+            "country": "AR"
+        },
         "roma": {
             "name": "Roma",
+            "country": "IT"
+        },
+        "sagan-tosu": {
+            "name": "Sagan Tosu",
+            "country": "JP"
+        },
+        "sampdoria": {
+            "name": "Sampdoria",
             "country": "IT"
         },
         "santos": {
@@ -522,6 +1297,10 @@
             "name": "Sevilla",
             "country": "ES"
         },
+        "shanghai-shenhua": {
+            "name": "Shanghai Shenhua",
+            "country": "CN"
+        },
         "southampton": {
             "name": "Southampton",
             "country": "EN"
@@ -530,9 +1309,33 @@
             "name": "Sporting CP",
             "country": "PT"
         },
+        "sporting-gijon": {
+            "name": "Sporting Gijón",
+            "country": "ES"
+        },
+        "stoke-city": {
+            "name": "Stoke City",
+            "country": "GB"
+        },
+        "str-msgodset": {
+            "name": "Strømsgodset",
+            "country": "NO"
+        },
+        "sydney-fc": {
+            "name": "Sydney FC",
+            "country": "AU"
+        },
         "tottenham-hotspur": {
             "name": "Tottenham Hotspur",
             "country": "EN"
+        },
+        "udinese": {
+            "name": "Udinese",
+            "country": "IT"
+        },
+        "uniao-sao-joao": {
+            "name": "União São João",
+            "country": "BR"
         },
         "valencia": {
             "name": "Valencia",
@@ -542,9 +1345,25 @@
             "name": "VfL Wolfsburg",
             "country": "DE"
         },
+        "villarreal": {
+            "name": "Villarreal",
+            "country": "ES"
+        },
+        "vissel-kobe": {
+            "name": "Vissel Kobe",
+            "country": "JP"
+        },
+        "vitesse": {
+            "name": "Vitesse",
+            "country": "NL"
+        },
         "werder-bremen": {
             "name": "Werder Bremen",
             "country": "DE"
+        },
+        "west-ham-united": {
+            "name": "West Ham United",
+            "country": "GB"
         }
     }
 }
