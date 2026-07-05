@@ -72,4 +72,4 @@ for new clubs.
 - Post-merge scans: **no near-duplicate club slugs, no orphan clubs**, no id
   collisions. `npm run ci` green (140 tests), production build OK.
 - **Overall goal delivered: 32 -> 134 players** across the two waves.
-- PR: _(pending — branch `add-players`)._
+- PR: https://github.com/alexjercan/football-guessr/pull/8 (open; task stays IN_PROGRESS until merge).

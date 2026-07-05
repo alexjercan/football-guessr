@@ -86,4 +86,4 @@ and legacy-lock tests), and the game still plays with the larger pool.
   existing club ids (Monaco -> AS Monaco, Groningen -> FC Groningen, Hamburg ->
   Hamburger SV, Wolfsburg -> VfL Wolfsburg).
 - Legacy four untouched; `npm run ci` green (140 tests), production build OK.
-- PR: _(pending — branch `add-players`, opened after wave 2)._
+- PR: https://github.com/alexjercan/football-guessr/pull/8 (open; task stays IN_PROGRESS until merge).
